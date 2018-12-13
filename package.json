@@ -12,5 +12,8 @@
     "http"
   ],
   "author": "Alexander Rydén",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "coap": "^0.22.0"
+  }
 }
