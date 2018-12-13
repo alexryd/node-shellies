@@ -1,0 +1,16 @@
+{
+  "name": "shellies",
+  "version": "0.1.0",
+  "description": "Handles communication with Shelly devices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shelly",
+    "coap",
+    "http"
+  ],
+  "author": "Alexander Rydén",
+  "license": "MIT"
+}
