@@ -14,6 +14,8 @@
   "author": "Alexander Rydén",
   "license": "MIT",
   "dependencies": {
-    "coap": "^0.22.0"
+    "coap": "^0.22.0",
+    "superagent": "^4.0.0",
+    "superagent-defaults": "^0.1.14"
   }
 }
