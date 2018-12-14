@@ -54,7 +54,9 @@ class Shellies extends EventEmitter {
 }
 
 const shellies = new Shellies()
+
 shellies.Coap = Coap
+shellies.createDevice = Device.create.bind(Device)
 shellies.request = request
 shellies.StatusUpdatesListener = StatusUpdatesListener
 
