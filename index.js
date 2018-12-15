@@ -18,6 +18,10 @@ class Shellies extends EventEmitter {
       .on('statusUpdate', this._statusUpdateHandler.bind(this))
   }
 
+  get running() {
+    return this._listener.listening
+  }
+
   [Symbol.iterator]() {
     return this._devices.values()
   }
