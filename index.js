@@ -5,6 +5,8 @@ const Device = require('./lib/device')
 const request = require('./lib/http-request')
 const StatusUpdatesListener = require('./lib/status-updates-listener')
 
+const deviceKey = (type, id) => `${type}#${id}`
+
 class Shellies extends EventEmitter {
   constructor() {
     super()
@@ -27,7 +29,7 @@ class Shellies extends EventEmitter {
   }
 
   async _statusUpdateHandler(msg) {
-    const key = `${msg.deviceType}#${msg.deviceId}`
+    const key = deviceKey(msg.deviceType, msg.deviceId)
     const device = this._devices.get(key)
 
     if (device) {
@@ -59,13 +61,17 @@ class Shellies extends EventEmitter {
     this._listener.stop()
   }
 
+  getDevice(type, id) {
+    return this._devices.get(deviceKey(type, id))
+  }
+
   addDevice(device) {
-    this._devices.set(`${device.type}#${device.id}`, device)
+    this._devices.set(deviceKey(device.type, device.id), device)
     this.emit('add', device)
   }
 
   removeDevice(device) {
-    this._devices.delete(`${device.type}#${device.id}`)
+    this._devices.delete(deviceKey(device.type, device.id))
     this.emit('remove', device)
   }
 }
