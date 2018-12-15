@@ -15,6 +15,10 @@ class Shellies extends EventEmitter {
     this._listener.on('statusUpdate', this._statusUpdateHandler.bind(this))
   }
 
+  [Symbol.iterator]() {
+    return this._devices.values()
+  }
+
   async _statusUpdateHandler(msg) {
     const key = `${msg.deviceType}#${msg.deviceId}`
     const device = this._devices.get(key)
