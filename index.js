@@ -48,6 +48,10 @@ class Shellies extends EventEmitter {
     this._listener.stop()
   }
 
+  addDevice(device) {
+    this._devices.set(`${device.type}#${device.id}`, device)
+  }
+
   removeDevice(device) {
     this._devices.delete(`${device.type}#${device.id}`)
   }
