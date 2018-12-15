@@ -12,7 +12,10 @@ class Shellies extends EventEmitter {
     this._devices = new Map()
     this._listener = new StatusUpdatesListener()
 
-    this._listener.on('statusUpdate', this._statusUpdateHandler.bind(this))
+    this._listener
+      .on('start', () => { this.emit('start') })
+      .on('stop', () => { this.emit('stop') })
+      .on('statusUpdate', this._statusUpdateHandler.bind(this))
   }
 
   [Symbol.iterator]() {
