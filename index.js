@@ -37,7 +37,7 @@ class Shellies extends EventEmitter {
 
       if (device) {
         this._devices.set(key, device)
-        this.emit('device', device)
+        this.emit('discover', device)
       } else {
         // silently ignore unknown devices
       }
