@@ -35,16 +35,16 @@ class Shellies extends EventEmitter {
     if (device) {
       device.update(msg)
     } else {
-      let device = null
-
-      try {
-        device = await Device.createFromStatusMessage(msg)
-      } catch (e) {
-        this.emit('error', e)
-        return
-      }
+      let device = Device.createFromStatusMessage(msg)
 
       if (device) {
+        try {
+          device.settings = await device.getSettings()
+        } catch (e) {
+          this.emit('error', e)
+          return
+        }
+
         this._devices.set(key, device)
         this.emit('discover', device)
       } else {
