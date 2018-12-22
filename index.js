@@ -48,7 +48,7 @@ class Shellies extends EventEmitter {
             this.emit('error', e, device)
           })
       } else {
-        // silently ignore unknown devices
+        this.emit('unknownDevice', msg.deviceType, msg.deviceId, msg.host)
       }
     }
   }
