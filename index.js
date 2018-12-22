@@ -30,14 +30,16 @@ class Shellies extends EventEmitter {
 
   _statusUpdateHandler(msg) {
     const key = deviceKey(msg.deviceType, msg.deviceId)
-    const device = this._devices.get(key)
+    let device = this._devices.get(key)
 
     if (device) {
       device.update(msg)
     } else {
-      let device = Device.createFromStatusMessage(msg)
+      device = Device.create(msg.deviceType, msg.deviceId, msg.host)
 
       if (device) {
+        device.update(msg)
+
         device.getSettings()
           .then(settings => {
             device.settings = settings
