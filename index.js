@@ -53,6 +53,10 @@ class Shellies extends EventEmitter {
     }
   }
 
+  setAuthCredentials(username, password) {
+    request.auth(username, password)
+  }
+
   async start() {
     await this._listener.start()
   }
