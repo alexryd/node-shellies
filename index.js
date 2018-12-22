@@ -28,7 +28,7 @@ class Shellies extends EventEmitter {
     return this._devices.values()
   }
 
-  async _statusUpdateHandler(msg) {
+  _statusUpdateHandler(msg) {
     const key = deviceKey(msg.deviceType, msg.deviceId)
     const device = this._devices.get(key)
 
@@ -38,15 +38,15 @@ class Shellies extends EventEmitter {
       let device = Device.createFromStatusMessage(msg)
 
       if (device) {
-        try {
-          device.settings = await device.getSettings()
-        } catch (e) {
-          this.emit('error', e)
-          return
-        }
-
-        this._devices.set(key, device)
-        this.emit('discover', device)
+        device.getSettings()
+          .then(settings => {
+            device.settings = settings
+            this._devices.set(key, device)
+            this.emit('discover', device)
+          })
+          .catch(e => {
+            this.emit('error', e, device)
+          })
       } else {
         // silently ignore unknown devices
       }
