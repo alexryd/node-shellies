@@ -45,7 +45,7 @@ class Shellies extends EventEmitter {
         this._devices.set(key, device)
         this.emit('discover', device)
       } else {
-        this.emit('unknownDevice', msg.deviceType, msg.deviceId, msg.host)
+        this.emit('unknown', msg.deviceType, msg.deviceId, msg.host)
       }
     }
   }
