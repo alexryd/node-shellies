@@ -4,7 +4,8 @@
   "description": "Handles communication with Shelly devices",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint ."
   },
   "keywords": [
     "shelly",
@@ -21,5 +22,13 @@
     "coap": "^0.22.0",
     "superagent": "^4.0.0",
     "superagent-defaults": "^0.1.14"
+  },
+  "devDependencies": {
+    "eslint": "^5.11.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }
