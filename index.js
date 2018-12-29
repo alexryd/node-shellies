@@ -18,6 +18,8 @@ class Shellies extends EventEmitter {
       .on('start', () => { this.emit('start') })
       .on('stop', () => { this.emit('stop') })
       .on('statusUpdate', this._statusUpdateHandler.bind(this))
+
+    this.staleTime = 8 * 60 * 60 * 1000
   }
 
   get running() {
@@ -39,12 +41,24 @@ class Shellies extends EventEmitter {
 
       if (device) {
         device.update(msg)
+        device.on('offline', this._deviceOfflineHandler.bind(this))
         this._devices.set(key, device)
         this.emit('discover', device)
       } else {
         this.emit('unknownDevice', msg.deviceType, msg.deviceId, msg.host)
       }
     }
+  }
+
+  _deviceOfflineHandler(device) {
+    const staleTimeout = setTimeout(() => {
+      this.emit('stale', device)
+      this.removeDevice(device)
+    }, this.staleTime)
+
+    device.once('online', () => {
+      clearTimeout(staleTimeout)
+    })
   }
 
   setAuthCredentials(username, password) {
@@ -65,6 +79,7 @@ class Shellies extends EventEmitter {
 
   addDevice(device) {
     this._devices.set(deviceKey(device.type, device.id), device)
+    device.on('offline', this._deviceOfflineHandler.bind(this))
     this.emit('add', device)
   }
 
