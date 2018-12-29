@@ -39,16 +39,8 @@ class Shellies extends EventEmitter {
 
       if (device) {
         device.update(msg)
-
-        device.getSettings()
-          .then(settings => {
-            device.settings = settings
-            this._devices.set(key, device)
-            this.emit('discover', device)
-          })
-          .catch(e => {
-            this.emit('error', e, device)
-          })
+        this._devices.set(key, device)
+        this.emit('discover', device)
       } else {
         this.emit('unknownDevice', msg.deviceType, msg.deviceId, msg.host)
       }
