@@ -22,6 +22,10 @@ class Shellies extends EventEmitter {
     this.staleTime = 8 * 60 * 60 * 1000
   }
 
+  get size() {
+    return this._devices.size
+  }
+
   get running() {
     return this._listener.listening
   }
