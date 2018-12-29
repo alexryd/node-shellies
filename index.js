@@ -79,6 +79,10 @@ class Shellies extends EventEmitter {
     return this._devices.get(deviceKey(type, id))
   }
 
+  hasDevice(device) {
+    return this._devices.has(deviceKey(device.type, device.id))
+  }
+
   addDevice(device) {
     const key = deviceKey(device.type, device.id)
     if (this._devices.has(key)) {
