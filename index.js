@@ -80,7 +80,14 @@ class Shellies extends EventEmitter {
   }
 
   addDevice(device) {
-    this._devices.set(deviceKey(device.type, device.id), device)
+    const key = deviceKey(device.type, device.id)
+    if (this._devices.has(key)) {
+      throw new Error(
+        `Device with type ${device.type} and ID ${device.id} already added`
+      )
+    }
+
+    this._devices.set(key, device)
     device.on('offline', this._deviceOfflineHandler.bind(this))
     this.emit('add', device)
   }
