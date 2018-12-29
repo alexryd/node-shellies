@@ -84,8 +84,9 @@ class Shellies extends EventEmitter {
   }
 
   removeDevice(device) {
-    this._devices.delete(deviceKey(device.type, device.id))
-    this.emit('remove', device)
+    if ((this._devices.delete(deviceKey(device.type, device.id)))) {
+      this.emit('remove', device)
+    }
   }
 }
 
