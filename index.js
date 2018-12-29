@@ -31,8 +31,7 @@ class Shellies extends EventEmitter {
   }
 
   _statusUpdateHandler(msg) {
-    const key = deviceKey(msg.deviceType, msg.deviceId)
-    let device = this._devices.get(key)
+    let device = this._devices.get(deviceKey(msg.deviceType, msg.deviceId))
 
     if (device) {
       device.update(msg)
@@ -41,9 +40,8 @@ class Shellies extends EventEmitter {
 
       if (device) {
         device.update(msg)
-        device.on('offline', this._deviceOfflineHandler.bind(this))
-        this._devices.set(key, device)
         this.emit('discover', device)
+        this.addDevice(device)
       } else {
         this.emit('unknown', msg.deviceType, msg.deviceId, msg.host)
       }
