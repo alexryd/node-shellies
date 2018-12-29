@@ -11,6 +11,10 @@ module.exports = {
   "rules": {
     "comma-dangle": ["error", "only-multiline"],
 
+    "max-len": ["error", {
+      "code": 80
+    }],
+
     "space-before-function-paren": ["error", {
       "anonymous": "always",
       "named": "never",
