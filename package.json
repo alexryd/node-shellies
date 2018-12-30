@@ -8,7 +8,8 @@
     "eslint": "eslint ."
   },
   "pre-commit": [
-    "eslint"
+    "eslint",
+    "test"
   ],
   "keywords": [
     "shelly",
