@@ -238,7 +238,7 @@ describe('shellies', function() {
   })
 
   describe('#[Symbol.iterator]()', function() {
-    it('should be an iterator', function() {
+    it('should return an iterator', function() {
       shellies.should.be.iterable()
       shellies[Symbol.iterator]().should.be.iterator()
     })

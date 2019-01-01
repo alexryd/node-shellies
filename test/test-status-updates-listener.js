@@ -23,7 +23,7 @@ describe('StatusUpdatesListener', function() {
   })
 
   describe('#start()', function() {
-    it('emits `start`', async function() {
+    it('should emit a `start` event', async function() {
       const startHandler = sinon.fake()
       listener.on('start', startHandler)
 
@@ -32,13 +32,13 @@ describe('StatusUpdatesListener', function() {
       startHandler.calledOnce.should.equal(true)
     })
 
-    it('sets `listening` to true', async function() {
+    it('should set `listening` to true', async function() {
       listener.listening.should.equal(false)
       await listener.start()
       listener.listening.should.equal(true)
     })
 
-    it('handles updates from requestStatusUpdates()', async function() {
+    it('should handle updates from requestStatusUpdates()', async function() {
       const statusUpdateHandler = sinon.fake()
       listener.on('statusUpdate', statusUpdateHandler)
 
@@ -55,14 +55,14 @@ describe('StatusUpdatesListener', function() {
       statusUpdateHandler.calledWith(msg).should.equal(true)
     })
 
-    it('handles errors from requestStatusUpdates()', function() {
+    it('should handle errors from requestStatusUpdates()', function() {
       const err = new Error('Fake error')
       coap.requestStatusUpdates.rejects(err)
 
       return listener.start().should.be.rejectedWith(err)
     })
 
-    it('handles updates from listenForStatusUpdates()', async function() {
+    it('should handle updates from listenForStatusUpdates()', async function() {
       const statusUpdateHandler = sinon.fake()
       listener.on('statusUpdate', statusUpdateHandler)
 
@@ -84,14 +84,14 @@ describe('StatusUpdatesListener', function() {
       statusUpdateHandler.calledWith(msg).should.equal(true)
     })
 
-    it('handles errors from listenForStatusUpdates()', function() {
+    it('should handle errors from listenForStatusUpdates()', function() {
       const err = new Error('Fake error')
       coap.listenForStatusUpdates.rejects(err)
 
       return listener.start().should.be.rejectedWith(err)
     })
 
-    it('does nothing when already listening', async function() {
+    it('should do nothing when already listening', async function() {
       await listener.start()
       await listener.start()
 
@@ -101,14 +101,14 @@ describe('StatusUpdatesListener', function() {
   })
 
   describe('#stop()', function() {
-    it('stops the server', async function() {
+    it('should stop the server', async function() {
       await listener.start()
       listener.stop()
 
       fakeServer.close.calledOnce.should.equal(true)
     })
 
-    it('emits `stop`', async function() {
+    it('should emit a `stop` event', async function() {
       const stopHandler = sinon.fake()
       listener.on('stop', stopHandler)
 
@@ -118,7 +118,7 @@ describe('StatusUpdatesListener', function() {
       stopHandler.calledOnce.should.equal(true)
     })
 
-    it('sets `listening` to false', async function() {
+    it('should set `listening` to false', async function() {
       await listener.start()
 
       listener.listening.should.equal(true)
@@ -126,7 +126,7 @@ describe('StatusUpdatesListener', function() {
       listener.listening.should.equal(false)
     })
 
-    it('does nothing when not listening', async function() {
+    it('should do nothing when not listening', async function() {
       const stopHandler = sinon.fake()
       listener.on('stop', stopHandler)
 
