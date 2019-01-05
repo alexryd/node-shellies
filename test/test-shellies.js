@@ -118,7 +118,7 @@ describe('shellies', function() {
     device.emit('offline', device)
 
     staleHandler.called.should.equal(false)
-    clock.tick(shellies.staleTime)
+    clock.tick(shellies.staleTimeout)
     staleHandler.calledOnce.should.equal(true)
     staleHandler.calledWith(device).should.equal(true)
     deviceStaleHandler.calledOnce.should.equal(true)
@@ -136,7 +136,7 @@ describe('shellies', function() {
     device.emit('offline', device)
 
     shellies.size.should.equal(1)
-    clock.tick(shellies.staleTime)
+    clock.tick(shellies.staleTimeout)
     shellies.size.should.equal(0)
     removeHandler.calledOnce.should.equal(true)
     removeHandler.calledWith(device).should.equal(true)

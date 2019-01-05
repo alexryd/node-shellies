@@ -21,7 +21,7 @@ class Shellies extends EventEmitter {
       .on('stop', () => { this.emit('stop') })
       .on('statusUpdate', this._statusUpdateHandler.bind(this))
 
-    this.staleTime = 8 * 60 * 60 * 1000
+    this.staleTimeout = 8 * 60 * 60 * 1000
   }
 
   get size() {
@@ -55,14 +55,14 @@ class Shellies extends EventEmitter {
   }
 
   _deviceOfflineHandler(device) {
-    const staleTimeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       this.emit('stale', device)
       device.emit('stale', device)
       this.removeDevice(device)
-    }, this.staleTime)
+    }, this.staleTimeout)
 
     device.once('online', () => {
-      clearTimeout(staleTimeout)
+      clearTimeout(timeout)
     })
   }
 
