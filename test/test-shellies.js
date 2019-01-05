@@ -217,6 +217,13 @@ describe('shellies', function() {
       shellies.size.should.equal(0)
     })
 
+    it('should remove all event listeners from the device', function() {
+      shellies.addDevice(device)
+      shellies.removeDevice(device)
+
+      device.eventNames().length.should.equal(0)
+    })
+
     it('should emit a `remove` event when a device is removed', function() {
       const removeHandler = sinon.fake()
 

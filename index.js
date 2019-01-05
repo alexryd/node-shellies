@@ -11,6 +11,8 @@ class Shellies extends EventEmitter {
   constructor() {
     super()
 
+    this._boundDeviceOfflineHandler = this._deviceOfflineHandler.bind(this)
+
     this._devices = new Map()
     this._listener = new StatusUpdatesListener()
 
@@ -93,12 +95,13 @@ class Shellies extends EventEmitter {
     }
 
     this._devices.set(key, device)
-    device.on('offline', this._deviceOfflineHandler.bind(this))
+    device.on('offline', this._boundDeviceOfflineHandler)
     this.emit('add', device)
   }
 
   removeDevice(device) {
     if ((this._devices.delete(deviceKey(device.type, device.id)))) {
+      device.removeListener('offline', this._boundDeviceOfflineHandler)
       this.emit('remove', device)
     }
   }
