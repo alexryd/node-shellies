@@ -110,7 +110,9 @@ describe('shellies', function() {
   it('should emit `stale` when a device becomes stale', function() {
     const clock = sinon.useFakeTimers()
     const staleHandler = sinon.fake()
+    const deviceStaleHandler = sinon.fake()
     shellies.on('stale', staleHandler)
+    device.on('stale', deviceStaleHandler)
 
     shellies.addDevice(device)
     device.emit('offline', device)
@@ -119,6 +121,8 @@ describe('shellies', function() {
     clock.tick(shellies.staleTime)
     staleHandler.calledOnce.should.equal(true)
     staleHandler.calledWith(device).should.equal(true)
+    deviceStaleHandler.calledOnce.should.equal(true)
+    deviceStaleHandler.calledWith(device).should.equal(true)
 
     clock.restore()
   })

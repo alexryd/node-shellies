@@ -55,6 +55,7 @@ class Shellies extends EventEmitter {
   _deviceOfflineHandler(device) {
     const staleTimeout = setTimeout(() => {
       this.emit('stale', device)
+      device.emit('stale', device)
       this.removeDevice(device)
     }, this.staleTime)
 
