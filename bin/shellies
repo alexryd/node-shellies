@@ -7,50 +7,71 @@ const commandLineCommands = require('command-line-commands')
 const packageVersion = require('../package.json').version
 const shellies = require('../index')
 
+const h = (txt, color = 'green') => {
+  return colors[color](txt) + ' ' + colors.gray(new Date().toISOString())
+}
+
+const v = (key, val) => {
+  return colors.gray(key + ':') + ' ' + val
+}
+
 const listen = () => {
   shellies
     .on('discover', device => {
+      console.log(h('[Device discovered]'))
       console.log(
-        colors.green('[Discovered device]'),
-        colors.gray('Type:'), device.type,
-        colors.gray('ID:'), device.id,
-        colors.gray('Host:'), device.host
+        v('Type', device.type),
+        v('ID', device.id),
+        v('Host', device.host)
       )
+
+      for (const [prop, value] of device) {
+        console.log(
+          v('Property', prop),
+          v('Value', value)
+        )
+      }
 
       device
         .on('change', (prop, newValue) => {
+          console.log(h('[Property changed]'))
           console.log(
-            colors.green('[Property changed]'),
-            colors.gray('Name:'), prop,
-            colors.gray('Value:'), newValue,
-            colors.gray('Device ID:'), device.id
+            v('Property', prop),
+            v('Value', newValue),
+            v('Device ID', device.id)
           )
         })
         .on('offline', () => {
+          console.log(h('[Device offline]', 'red'))
           console.log(
-            colors.red('[Device offline]'),
-            colors.gray('ID:'), device.id
+            v('Type', device.type),
+            v('ID', device.id),
+            v('Host', device.host)
           )
         })
         .on('online', () => {
+          console.log(h('[Device online]'))
           console.log(
-            colors.green('[Device online]'),
-            colors.gray('ID:'), device.id
+            v('Type', device.type),
+            v('ID', device.id),
+            v('Host', device.host)
           )
         })
     })
     .on('unknown', (type, id, host) => {
+      console.log(h('[Unknown device]', 'yellow'))
       console.log(
-        colors.yellow('[Unknown device]'),
-        colors.gray('Type:'), type,
-        colors.gray('ID:'), id,
-        colors.gray('Host:'), host
+        v('Type', type),
+        v('ID', id),
+        v('Host', host)
       )
     })
     .on('stale', device => {
+      console.log(h('[Device stale]', 'red'))
       console.log(
-        colors.red('[Stale device]'),
-        colors.gray('ID:'), device.id
+        v('Type', device.type),
+        v('ID', device.id),
+        v('Host', device.host)
       )
     })
     .start()
