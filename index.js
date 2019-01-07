@@ -11,16 +11,13 @@ class Shellies extends EventEmitter {
   constructor() {
     super()
 
-    this._boundDeviceOfflineHandler = this._deviceOfflineHandler.bind(this)
-    this._boundDeviceOnlineHandler = this._deviceOnlineHandler.bind(this)
-
     this._devices = new Map()
     this._listener = new StatusUpdatesListener()
 
     this._listener
       .on('start', () => { this.emit('start') })
       .on('stop', () => { this.emit('stop') })
-      .on('statusUpdate', this._statusUpdateHandler.bind(this))
+      .on('statusUpdate', this._statusUpdateHandler, this)
 
     this._staleTimeout = null
     this.staleTimeout = 8 * 60 * 60 * 1000
@@ -67,7 +64,7 @@ class Shellies extends EventEmitter {
       this.removeDevice(device)
     }, this.staleTimeout)
 
-    device.on('online', this._boundDeviceOnlineHandler)
+    device.on('online', this._deviceOnlineHandler, this)
   }
 
   _deviceOnlineHandler(device) {
@@ -109,14 +106,14 @@ class Shellies extends EventEmitter {
     if (!device.online) {
       this._deviceOfflineHandler(device)
     }
-    device.on('offline', this._boundDeviceOfflineHandler)
+    device.on('offline', this._deviceOfflineHandler, this)
     this.emit('add', device)
   }
 
   removeDevice(device) {
     if ((this._devices.delete(deviceKey(device.type, device.id)))) {
-      device.removeListener('offline', this._boundDeviceOfflineHandler)
-      device.removeListener('online', this._boundDeviceOnlineHandler)
+      device.removeListener('offline', this._deviceOfflineHandler, this)
+      device.removeListener('online', this._deviceOnlineHandler, this)
       this.emit('remove', device)
     }
   }
