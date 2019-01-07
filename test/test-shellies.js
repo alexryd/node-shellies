@@ -5,12 +5,15 @@ const sinon = require('sinon')
 const shellies = require('../index')
 
 describe('shellies', function() {
-  const device = shellies.createDevice('SHSW-1', 'ABC123', '192.168.1.2')
+  let device = null
 
   beforeEach(function() {
+    device = shellies.createDevice('SHSW-1', 'ABC123', '192.168.1.2')
+  })
+
+  afterEach(function() {
     shellies._devices.clear()
     shellies.removeAllListeners()
-    device.removeAllListeners()
   })
 
   it('should emit `start` when the status listener starts', function() {
@@ -114,8 +117,9 @@ describe('shellies', function() {
     shellies.on('stale', staleHandler)
     device.on('stale', deviceStaleHandler)
 
+    device.online = true
     shellies.addDevice(device)
-    device.emit('offline', device)
+    device.online = false
 
     staleHandler.called.should.equal(false)
     clock.tick(shellies.staleTimeout)
@@ -123,6 +127,21 @@ describe('shellies', function() {
     staleHandler.calledWith(device).should.equal(true)
     deviceStaleHandler.calledOnce.should.equal(true)
     deviceStaleHandler.calledWith(device).should.equal(true)
+
+    clock.restore()
+  })
+
+  it('should emit `stale` for devices that are already offline', function() {
+    const clock = sinon.useFakeTimers()
+    const staleHandler = sinon.fake()
+    shellies.on('stale', staleHandler)
+
+    shellies.addDevice(device)
+
+    staleHandler.called.should.be.false()
+    clock.tick(shellies.staleTimeout)
+    staleHandler.calledOnce.should.be.true()
+    staleHandler.calledWith(device).should.be.true()
 
     clock.restore()
   })
