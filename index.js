@@ -105,6 +105,12 @@ class Shellies extends EventEmitter {
       this.emit('remove', device)
     }
   }
+
+  removeAllDevices() {
+    for (const device of this) {
+      this.removeDevice(device)
+    }
+  }
 }
 
 const shellies = new Shellies()
