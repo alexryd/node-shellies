@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+const EventEmitter = require('eventemitter3')
 
 const Coap = require('./lib/coap')
 const Device = require('./lib/device')
