@@ -45,8 +45,8 @@ describe('Device', function() {
   })
 
   describe('#online', function() {
-    it('should be true by default', function() {
-      device.online.should.equal(true)
+    it('should be false by default', function() {
+      device.online.should.equal(false)
     })
 
     it('should emit `online` and `offline` events upon changes', function() {
@@ -54,21 +54,21 @@ describe('Device', function() {
       const offlineHandler = sinon.fake()
       device.on('online', onlineHandler).on('offline', offlineHandler)
 
+      device.online = true
+      onlineHandler.calledOnce.should.equal(true)
+      onlineHandler.calledWith(device).should.equal(true)
+      offlineHandler.called.should.equal(false)
+
+      device.online = true
+      onlineHandler.calledOnce.should.equal(true)
+      offlineHandler.called.should.equal(false)
+
       device.online = false
-      onlineHandler.called.should.equal(false)
+      onlineHandler.calledOnce.should.equal(true)
       offlineHandler.calledOnce.should.equal(true)
       offlineHandler.calledWith(device).should.equal(true)
 
       device.online = false
-      onlineHandler.called.should.equal(false)
-      offlineHandler.calledOnce.should.equal(true)
-
-      device.online = true
-      onlineHandler.calledOnce.should.equal(true)
-      onlineHandler.calledWith(device).should.equal(true)
-      offlineHandler.calledOnce.should.equal(true)
-
-      device.online = true
       onlineHandler.calledOnce.should.equal(true)
       offlineHandler.calledOnce.should.equal(true)
     })
@@ -78,6 +78,7 @@ describe('Device', function() {
     it('should set `online` to false after the given time', function() {
       const clock = sinon.useFakeTimers()
 
+      device.online = true
       device.ttl = 1000
       clock.tick(500)
       device.online.should.equal(true)
@@ -90,7 +91,7 @@ describe('Device', function() {
     it('should not set `online` to false when set to 0', function() {
       const clock = sinon.useFakeTimers()
 
-      device.online.should.equal(true)
+      device.online = true
       device.ttl = 1000
       device.ttl = 0
       device.online.should.equal(true)
