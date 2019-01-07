@@ -163,6 +163,23 @@ describe('shellies', function() {
     clock.restore()
   })
 
+  it('should not emit `stale` for devices that are online', function() {
+    const clock = sinon.useFakeTimers()
+    const staleHandler = sinon.fake()
+    shellies.on('stale', staleHandler)
+
+    device.online = true
+    shellies.addDevice(device)
+    device.online = false
+    device.online = true
+
+    staleHandler.called.should.be.false()
+    clock.tick(shellies.staleTimeout)
+    staleHandler.called.should.be.false()
+
+    clock.restore()
+  })
+
   describe('#addDevice()', function() {
     it('should add the device to the list of devices', function() {
       shellies.size.should.equal(0)
