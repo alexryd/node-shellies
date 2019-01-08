@@ -19,7 +19,6 @@ class Shellies extends EventEmitter {
       .on('stop', () => { this.emit('stop') })
       .on('statusUpdate', this._statusUpdateHandler, this)
 
-    this._staleTimeout = null
     this.staleTimeout = 8 * 60 * 60 * 1000
   }
 
@@ -54,24 +53,26 @@ class Shellies extends EventEmitter {
   }
 
   _deviceOfflineHandler(device) {
-    if (this._staleTimeout !== null) {
-      clearTimeout(this._staleTimeout)
-    }
-
-    this._staleTimeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       this.emit('stale', device)
       device.emit('stale', device)
       this.removeDevice(device)
     }, this.staleTimeout)
 
-    device.on('online', this._deviceOnlineHandler, this)
-  }
-
-  _deviceOnlineHandler(device) {
-    if (this._staleTimeout !== null) {
-      clearTimeout(this._staleTimeout)
-      this._staleTimeout = null
+    const onlineHandler = () => {
+      clearTimeout(timeout)
+      device.once('offline', this._deviceOfflineHandler, this)
+      this.removeListener('remove', removeHandler)
     }
+    const removeHandler = d => {
+      if (d === device) {
+        clearTimeout(timeout)
+        device.removeListener('online', onlineHandler)
+        this.removeListener('remove', removeHandler)
+      }
+    }
+    device.once('online', onlineHandler)
+    this.on('remove', removeHandler)
   }
 
   setAuthCredentials(username, password) {
@@ -105,15 +106,15 @@ class Shellies extends EventEmitter {
     this._devices.set(key, device)
     if (!device.online) {
       this._deviceOfflineHandler(device)
+    } else {
+      device.once('offline', this._deviceOfflineHandler, this)
     }
-    device.on('offline', this._deviceOfflineHandler, this)
     this.emit('add', device)
   }
 
   removeDevice(device) {
     if ((this._devices.delete(deviceKey(device.type, device.id)))) {
       device.removeListener('offline', this._deviceOfflineHandler, this)
-      device.removeListener('online', this._deviceOnlineHandler, this)
       this.emit('remove', device)
     }
   }
