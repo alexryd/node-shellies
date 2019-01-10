@@ -11,10 +11,6 @@ describe('Device', function() {
     device = new Device('SHSW-1', 'ABC123', '192.168.1.2')
   })
 
-  afterEach(function() {
-    device = null
-  })
-
   describe('.deviceTypeToClass()', function() {
     it('should return classes for known device types', function() {
       Device.deviceTypeToClass('SHSW-1').should.be.Function()
@@ -41,6 +37,14 @@ describe('Device', function() {
         'ABC123',
         '192.168.1.2'
       )).be.null()
+    })
+  })
+
+  describe('#settings', function() {
+    it('should not fail when assigned a new value', function() {
+      const settings = {}
+      should(() => { device.settings = settings }).not.throw()
+      device.settings.should.equal(settings)
     })
   })
 
@@ -236,6 +240,135 @@ describe('Device', function() {
 
       changeFooHandler.calledOnce.should.equal(true)
       changeFooHandler.calledWith(payload[0][2]).should.equal(true)
+    })
+  })
+})
+
+describe('Shelly2', function() {
+  let device = null
+
+  beforeEach(function() {
+    device = Device.create('SHSW-21', 'ABC123', '192.168.1.2')
+  })
+
+  describe('#mode', function() {
+    it('should change when set to a valid mode', function() {
+      should(() => { device.mode = 'roller' }).not.throw()
+      device.mode.should.equal('roller')
+      should(() => { device.mode = 'relay' }).not.throw()
+      device.mode.should.equal('relay')
+    })
+
+    it('should throw an error when assigned an invalid mode', function() {
+      should(() => { device.mode = 'foo' }).throw()
+    })
+
+    it('should invoke _updateRollerState()', function() {
+      const _updateRollerState = sinon.stub(device, '_updateRollerState')
+      device.mode = 'roller'
+      _updateRollerState.calledOnce.should.be.true()
+    })
+  })
+
+  describe('#rollerState', function() {
+    it('should change when set to a valid state', function() {
+      should(() => { device.rollerState = 'open' }).not.throw()
+      device.rollerState.should.equal('open')
+      should(() => { device.rollerState = 'close' }).not.throw()
+      device.rollerState.should.equal('close')
+      should(() => { device.rollerState = 'stop' }).not.throw()
+      device.rollerState.should.equal('stop')
+    })
+
+    it('should throw an error when assigned an invalid state', function() {
+      should(() => { device.rollerState = 'foo' }).throw()
+    })
+  })
+
+  describe('#rollerPosition', function() {
+    it('should always be within the 0-100 range', function() {
+      device.rollerPosition = 50
+      device.rollerPosition.should.equal(50)
+      device.rollerPosition = 150
+      device.rollerPosition.should.equal(100)
+      device.rollerPosition = -50
+      device.rollerPosition.should.equal(0)
+    })
+  })
+
+  describe('#_settingsValidator()', function() {
+    it('should return the given settings', function() {
+      const settings = {}
+      device._settingsValidator(settings).should.equal(settings)
+    })
+
+    it('should update the mode', function() {
+      const changeModeHandler = sinon.fake()
+      device.on('change:mode', changeModeHandler)
+
+      device.mode.should.equal('relay')
+
+      device.settings = { mode: 'roller' }
+      changeModeHandler.calledOnce.should.be.true()
+      changeModeHandler.calledWith('roller').should.be.true()
+
+      device.settings = { mode: 'relay' }
+      changeModeHandler.calledTwice.should.be.true()
+      changeModeHandler.calledWith('relay').should.be.true()
+    })
+  })
+
+  describe('#_updateRollerState()', function() {
+    it('should properly update the roller state', function() {
+      device.relay0.should.be.false()
+      device.relay1.should.be.false()
+      device.rollerState.should.equal('stop')
+
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('stop')
+
+      device.relay0 = true
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('open')
+
+      device.relay0 = false
+      device.relay1 = true
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('close')
+
+      device.relay1 = false
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('stop')
+
+      device.settings = { mode: 'roller', rollers: [ { swap: true } ] }
+
+      device.relay0 = true
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('close')
+
+      device.relay0 = false
+      device.relay1 = true
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('open')
+
+      device.relay1 = false
+      device._updateRollerState('roller')
+      device.rollerState.should.equal('stop')
+    })
+
+    it('should do nothing when mode is not \'roller\'', function() {
+      device.relay0 = true
+      device._updateRollerState('relay')
+      device.rollerState.should.equal('stop')
+    })
+  })
+
+  describe('#_applyUpdate()', function() {
+    it('should invoke _updateRollerState()', function() {
+      const _updateRollerState = sinon.stub(device, '_updateRollerState')
+      device._applyUpdate({}, [])
+      _updateRollerState.calledOnce.should.be.true()
+      _updateRollerState.calledWith(device.mode).should.be.true()
     })
   })
 })
