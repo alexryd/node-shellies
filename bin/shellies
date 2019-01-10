@@ -32,8 +32,22 @@ const listen = () => {
         )
       }
 
+      device.getSettings()
+        .then(settings => {
+          device.settings = settings
+        })
+        .catch(error => {
+          console.error(h('[Request failed]', 'red'))
+          console.log('Failed to load settings for device with ID', device.id)
+          console.log(error)
+        })
+
       device
         .on('change', (prop, newValue) => {
+          if (prop === 'settings') {
+            return
+          }
+
           console.log(h('[Property changed]'))
           console.log(
             v('Property', prop),
