@@ -3,6 +3,7 @@ const should = require('should')
 const sinon = require('sinon')
 
 const Device = require('../lib/device')
+const request = require('../lib/http-request')
 
 describe('Device', function() {
   let device = null
@@ -251,6 +252,10 @@ describe('Shelly2', function() {
     device = Device.create('SHSW-21', 'ABC123', '192.168.1.2')
   })
 
+  afterEach(function() {
+    sinon.restore()
+  })
+
   describe('#mode', function() {
     it('should change when set to a valid mode', function() {
       should(() => { device.mode = 'roller' }).not.throw()
@@ -358,6 +363,68 @@ describe('Shelly2', function() {
       device._applyUpdate({}, [])
       _updateRollerState.calledOnce.should.be.true()
       _updateRollerState.calledWith(device.mode).should.be.true()
+    })
+  })
+
+  describe('#setRollerState()', function() {
+    let get = null
+
+    beforeEach(function() {
+      get = sinon.stub(request, 'get')
+    })
+
+    it('should request a URL with a proper query string', function() {
+      get.resolves({})
+
+      device.setRollerState('open')
+      get.calledOnce.should.be.true()
+      get.calledWith(`${device.host}/roller/0?go=open`).should.be.true()
+
+      device.setRollerState('close', 20)
+      get.calledTwice.should.be.true()
+      get.calledWith(`${device.host}/roller/0?go=close&duration=20`)
+        .should.be.true()
+    })
+
+    it('should resolve with the request body', function() {
+      const body = {}
+      get.resolves({ body })
+
+      device.setRollerState('open').should.be.fulfilledWith(body)
+    })
+
+    it('should reject failed requests', function() {
+      get.rejects()
+      device.setRollerState('open').should.be.rejected()
+    })
+  })
+
+  describe('#setRollerPosition()', function() {
+    let get = null
+
+    beforeEach(function() {
+      get = sinon.stub(request, 'get')
+    })
+
+    it('should request a URL with a proper query string', function() {
+      get.resolves({})
+
+      device.setRollerPosition(55)
+      get.calledOnce.should.be.true()
+      get.calledWith(`${device.host}/roller/0?go=to_pos&roller_pos=55`)
+        .should.be.true()
+    })
+
+    it('should resolve with the request body', function() {
+      const body = {}
+      get.resolves({ body })
+
+      device.setRollerPosition(20).should.be.fulfilledWith(body)
+    })
+
+    it('should reject failed requests', function() {
+      get.rejects()
+      device.setRollerPosition(20).should.be.rejected()
     })
   })
 })
