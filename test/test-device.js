@@ -285,17 +285,6 @@ describe('Shelly2', function() {
     })
   })
 
-  describe('#rollerPosition', function() {
-    it('should always be within the 0-100 range', function() {
-      device.rollerPosition = 50
-      device.rollerPosition.should.equal(50)
-      device.rollerPosition = 150
-      device.rollerPosition.should.equal(100)
-      device.rollerPosition = -50
-      device.rollerPosition.should.equal(0)
-    })
-  })
-
   describe('#_settingsValidator()', function() {
     it('should return the given settings', function() {
       const settings = {}
