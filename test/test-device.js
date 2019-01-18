@@ -390,7 +390,7 @@ describe('Shelly2', function() {
       const body = {}
       get.resolves({ body })
 
-      device.setRollerState('open').should.be.fulfilledWith(body)
+      return device.setRollerState('open').should.be.fulfilledWith(body)
     })
 
     it('should reject failed requests', function() {
@@ -419,7 +419,7 @@ describe('Shelly2', function() {
       const body = {}
       get.resolves({ body })
 
-      device.setRollerPosition(20).should.be.fulfilledWith(body)
+      return device.setRollerPosition(20).should.be.fulfilledWith(body)
     })
 
     it('should reject failed requests', function() {
