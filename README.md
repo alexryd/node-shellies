@@ -1,4 +1,6 @@
 # node-shellies
+[![NPM Version](https://img.shields.io/npm/v/shellies.svg)](https://www.npmjs.com/package/shellies)
+
 Handles communication with [Shelly](https://shelly.cloud) devices, using both
 [CoAP](http://coap.technology) and HTTP.
 
