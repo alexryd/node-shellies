@@ -23,6 +23,16 @@ describe('StatusUpdatesListener', function() {
   })
 
   describe('#start()', function() {
+    it(
+      'should pass the network interface to listenForStatusUpdates()',
+      async function() {
+        const networkInterface = '127.0.0.1'
+        await listener.start(networkInterface)
+        coap.listenForStatusUpdates.firstCall.args[1]
+          .should.equal(networkInterface)
+      }
+    )
+
     it('should emit a `start` event', async function() {
       const startHandler = sinon.fake()
       listener.on('start', startHandler)

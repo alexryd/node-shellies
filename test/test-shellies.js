@@ -180,6 +180,21 @@ describe('shellies', function() {
     clock.restore()
   })
 
+  describe('#start()', function() {
+    it(
+      'should pass the network interface to the status update listener',
+      function() {
+        const start = sinon.stub(shellies._listener, 'start')
+        const networkInterface = '127.0.0.1'
+
+        shellies.start(networkInterface)
+
+        start.calledOnce.should.be.true()
+        start.calledWith(networkInterface).should.be.true()
+      }
+    )
+  })
+
   describe('#addDevice()', function() {
     it('should add the device to the list of devices', function() {
       shellies.size.should.equal(0)

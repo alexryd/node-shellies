@@ -79,8 +79,8 @@ class Shellies extends EventEmitter {
     request.auth(username, password)
   }
 
-  async start() {
-    await this._listener.start()
+  async start(networkInterface = null) {
+    await this._listener.start(networkInterface)
   }
 
   stop() {
