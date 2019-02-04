@@ -1,6 +1,6 @@
 {
   "name": "shellies",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Handles communication with Shelly devices",
   "main": "index.js",
   "bin": "bin/shellies",
