@@ -72,13 +72,20 @@ const listen = () => {
           )
         })
     })
-    .on('unknown', (type, id, host) => {
+    .on('unknown', (type, id, host, msg) => {
       console.log(h('[Unknown device]', 'yellow'))
       console.log(
         v('Type', type),
         v('ID', id),
         v('Host', host)
       )
+      if (typeof msg.validFor !== 'undefined') {
+        console.log(v('Valid for', msg.validFor))
+      }
+      if (typeof msg.serial !== 'undefined') {
+        console.log(v('Serial', msg.serial))
+      }
+      console.log(v('Payload', JSON.stringify(msg.payload)))
     })
     .on('stale', device => {
       console.log(h('[Device stale]', 'red'))
