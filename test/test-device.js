@@ -213,6 +213,24 @@ describe('Device', function() {
       device.update({ serial: msg.serial + 1 })
       _applyUpdate.calledTwice.should.equal(true)
     })
+
+    it('should always invoke _applyUpdate() for SHHT-1 devices', function() {
+      const _applyUpdate = sinon.stub(device, '_applyUpdate')
+      const msg = {
+        serial: 123,
+      }
+
+      device.type = 'SHHT-1'
+
+      device.update(msg)
+      _applyUpdate.calledOnce.should.equal(true)
+
+      device.update(msg)
+      _applyUpdate.calledTwice.should.equal(true)
+
+      device.update({ serial: msg.serial + 1 })
+      _applyUpdate.calledThrice.should.equal(true)
+    })
   })
 
   describe('#_applyUpdate()', function() {
