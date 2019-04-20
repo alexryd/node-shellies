@@ -14,10 +14,11 @@ Handles communication with [Shelly](https://shelly.cloud) devices, using both
 
 ## Supported devices
 Currently the following Shelly devices are supported:
-* [Shelly1](https://shelly.cloud/shelly1-open-source/)
-* Shelly2
-* [Shelly2.5](https://shelly.cloud/shelly-25-wifi-smart-relay-roller-shutter-home-automation/)
-* [Shelly4Pro](https://shelly.cloud/shelly-4-pro/)
+* [Shelly 1](https://shelly.cloud/shelly1-open-source/)
+* [Shelly 1PM](https://shelly.cloud/shelly-1pm-wifi-smart-relay-home-automation/)
+* Shelly 2
+* [Shelly 2.5](https://shelly.cloud/shelly-25-wifi-smart-relay-roller-shutter-home-automation/)
+* [Shelly 4Pro](https://shelly.cloud/shelly-4-pro/)
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
 * [Shelly Plug](https://shelly.cloud/shelly-plug/)
 * [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
