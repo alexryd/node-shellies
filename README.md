@@ -19,6 +19,8 @@ Currently the following Shelly devices are supported:
 * [Shelly2.5](https://shelly.cloud/shelly-25-wifi-smart-relay-roller-shutter-home-automation/)
 * [Shelly4Pro](https://shelly.cloud/shelly-4-pro/)
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
+* [Shelly Plug](https://shelly.cloud/shelly-plug/)
+* [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
 
 ## Basic usage example
 ```javascript
