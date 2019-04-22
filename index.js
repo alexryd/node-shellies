@@ -1,7 +1,7 @@
 const EventEmitter = require('eventemitter3')
 
 const Coap = require('./lib/coap')
-const Device = require('./lib/device')
+const { Device } = require('./lib/device')
 const request = require('./lib/http-request')
 const StatusUpdatesListener = require('./lib/status-updates-listener')
 
@@ -41,14 +41,9 @@ class Shellies extends EventEmitter {
       device.update(msg)
     } else {
       device = Device.create(msg.deviceType, msg.deviceId, msg.host)
-
-      if (device) {
-        device.update(msg)
-        this.emit('discover', device)
-        this.addDevice(device)
-      } else {
-        this.emit('unknown', msg.deviceType, msg.deviceId, msg.host, msg)
-      }
+      device.update(msg)
+      this.emit('discover', device, this.isUnknownDevice(device))
+      this.addDevice(device)
     }
   }
 
@@ -123,6 +118,10 @@ class Shellies extends EventEmitter {
     for (const device of this) {
       this.removeDevice(device)
     }
+  }
+
+  isUnknownDevice(device) {
+    return Device.isUnknown(device)
   }
 }
 

@@ -3,6 +3,7 @@ const should = require('should')
 const sinon = require('sinon')
 
 const shellies = require('../index')
+const { Device, UnknownDevice } = require('../lib/device')
 
 describe('shellies', function() {
   let device = null
@@ -47,6 +48,7 @@ describe('shellies', function() {
     discoverHandler.lastCall.args[0].type.should.equal(msg.deviceType)
     discoverHandler.lastCall.args[0].id.should.equal(msg.deviceId)
     discoverHandler.lastCall.args[0].host.should.equal(msg.host)
+    discoverHandler.lastCall.args[1].should.be.false()
 
     const msg2 = {
       deviceType: 'SHSW-1',
@@ -59,6 +61,7 @@ describe('shellies', function() {
     discoverHandler.lastCall.args[0].type.should.equal(msg2.deviceType)
     discoverHandler.lastCall.args[0].id.should.equal(msg2.deviceId)
     discoverHandler.lastCall.args[0].host.should.equal(msg2.host)
+    discoverHandler.lastCall.args[1].should.be.false()
   })
 
   it('should not emit `discover` when a known device is found', function() {
@@ -91,9 +94,9 @@ describe('shellies', function() {
     addHandler.calledOnce.should.equal(true)
   })
 
-  it('should emit `unknown` when an unknown device type is found', function() {
-    const unknownHandler = sinon.fake()
-    shellies.on('unknown', unknownHandler)
+  it('should emit `discover` when an unknown device type is found', function() {
+    const discoverHandler = sinon.fake()
+    shellies.on('discover', discoverHandler)
 
     const msg = {
       deviceType: 'UNKNOWN-1',
@@ -102,12 +105,9 @@ describe('shellies', function() {
     }
     shellies._listener.emit('statusUpdate', msg)
 
-    unknownHandler.calledOnce.should.equal(true)
-    unknownHandler.calledWith(
-      msg.deviceType,
-      msg.deviceId,
-      msg.host
-    ).should.equal(true)
+    discoverHandler.calledOnce.should.equal(true)
+    discoverHandler.lastCall.args[0].should.be.instanceof(UnknownDevice)
+    discoverHandler.lastCall.args[1].should.be.true()
   })
 
   it('should emit `stale` when a device becomes stale', function() {
@@ -329,6 +329,28 @@ describe('shellies', function() {
 
       auth.calledOnce.should.equal(true)
       auth.calledWith('foo', 'bar').should.equal(true)
+    })
+  })
+
+  describe('#isUnknownDevice()', function() {
+    it('should return true for unknown devices', function() {
+      shellies.isUnknownDevice(
+        Device.create(
+          'UNKNOWN-1',
+          'ABC123',
+          '192.168.1.2'
+        )
+      ).should.be.true()
+    })
+
+    it('should return false for known devices', function() {
+      shellies.isUnknownDevice(
+        Device.create(
+          'SHSW-1',
+          'ABC123',
+          '192.168.1.2'
+        )
+      ).should.be.false()
     })
   })
 })

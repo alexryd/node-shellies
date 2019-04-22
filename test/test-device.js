@@ -2,7 +2,7 @@
 const should = require('should')
 const sinon = require('sinon')
 
-const Device = require('../lib/device')
+const { Device, UnknownDevice } = require('../lib/device')
 const request = require('../lib/http-request')
 
 describe('Device', function() {
@@ -18,8 +18,8 @@ describe('Device', function() {
       Device.deviceTypeToClass('SHSW-21').should.be.Function()
     })
 
-    it('should return undefined for unknown device types', function() {
-      should(Device.deviceTypeToClass('UNKNOWN-1')).be.undefined()
+    it('should return UnknownDevice for unknown device types', function() {
+      Device.deviceTypeToClass('UNKNOWN-1').should.equal(UnknownDevice)
     })
   })
 
@@ -32,12 +32,34 @@ describe('Device', function() {
       ).should.be.instanceof(Device)
     })
 
-    it('should return null for unknown device types', function() {
-      should(Device.create(
+    it('should return an UnknownDevice for unknown device types', function() {
+      Device.create(
         'UNKNOWN-1',
         'ABC123',
         '192.168.1.2'
-      )).be.null()
+      ).should.be.instanceof(UnknownDevice)
+    })
+  })
+
+  describe('.isUnknown()', function() {
+    it('should return true for unknown devices', function() {
+      Device.isUnknown(
+        Device.create(
+          'UNKNOWN-1',
+          'ABC123',
+          '192.168.1.2'
+        )
+      ).should.be.true()
+    })
+
+    it('should return false for known devices', function() {
+      Device.isUnknown(
+        Device.create(
+          'SHSW-1',
+          'ABC123',
+          '192.168.1.2'
+        )
+      ).should.be.false()
     })
   })
 
