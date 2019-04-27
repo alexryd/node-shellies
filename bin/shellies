@@ -87,8 +87,67 @@ const listen = () => {
     .start()
 }
 
+const description = host => {
+  shellies.Coap.getDescription(host)
+    .then(msg => {
+      const device = shellies.createDevice(
+        msg.deviceType,
+        msg.deviceId,
+        msg.host
+      )
+
+      if (shellies.isUnknownDevice(device)) {
+        console.log(colors.yellow('[Unknown device]'))
+      }
+
+      console.log(
+        v('Type', device.type),
+        v('ID', device.id),
+        v('Host', device.host)
+      )
+
+      console.log(v('Description', JSON.stringify(msg.payload)))
+    })
+}
+
+const status = host => {
+  shellies.Coap.getStatus(host)
+    .then(msg => {
+      const device = shellies.createDevice(
+        msg.deviceType,
+        msg.deviceId,
+        msg.host
+      )
+      device.update(msg)
+      device.ttl = 0
+
+      if (shellies.isUnknownDevice(device)) {
+        console.log(colors.yellow('[Unknown device]'))
+      }
+
+      console.log(
+        v('Type', device.type),
+        v('ID', device.id),
+        v('Host', device.host)
+      )
+
+      if (!shellies.isUnknownDevice(device)) {
+        for (const [prop, value] of device) {
+          console.log(
+            v('Property', prop),
+            v('Value', value)
+          )
+        }
+      }
+
+      console.log(v('Status', JSON.stringify(msg.payload)))
+    })
+}
+
 const commands = new Map()
 commands.set('listen', listen)
+commands.set('description', description)
+commands.set('status', status)
 
 try {
   const { command, argv } = commandLineCommands(
