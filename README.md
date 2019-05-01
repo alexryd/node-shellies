@@ -46,3 +46,43 @@ shellies.on('discover', device => {
 // start discovering devices and listening for status updates
 shellies.start()
 ```
+
+
+## shellies
+**`shellies.setAuthCredentials(username: string, password: string)`**
+
+Set authentication credentials required to submit update request to shelly device. The same credentials will be used for all discovered devices.
+
+
+## Device 
+#### methods
+**`async getSettings()`**
+
+**`async getStatus()`**
+
+**`async reboot()`**
+
+## Switch
+*inherits from Device*
+#### methods
+**`async setRelay(index: number, value: boolean)`**
+
+## Shelly1
+*inherits from Switch*
+#### props
+**`relay0: boolean`**
+
+## Shelly1PM
+*inherits from Switch*
+#### props
+**`powerMeter0: number`**
+
+**`relay0: boolean`**
+
+## Shelly2
+## Shelly4Pro
+## ShellyHT
+## ShellyPlug
+## ShellySense
+
+
