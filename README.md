@@ -22,6 +22,7 @@ Currently the following Shelly devices are supported:
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
 * [Shelly Plug](https://shelly.cloud/shelly-plug/)
 * [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
+* [Shelly RGBW2](https://shelly.cloud/wifi-smart-shelly-rgbw-2/)
 * [Shelly Sense](https://shelly.cloud/shelly-sense/)
 
 ## Basic usage example
