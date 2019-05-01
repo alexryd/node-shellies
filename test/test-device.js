@@ -140,12 +140,12 @@ describe('Device', function() {
 
     it('should associate the property with the given ID', function() {
       device._defineProperty('foo', 1)
-      device._props.get(1).should.equal('foo')
+      device._props.get('*').get(1).should.equal('foo')
     })
 
     it('should not associate the property when no ID is given', function() {
       device._defineProperty('foo', null)
-      device._props.has(null).should.equal(false)
+      device._props.size.should.equal(0)
     })
 
     it('should properly set the default value', function() {
