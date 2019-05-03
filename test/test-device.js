@@ -479,3 +479,43 @@ describe('Shelly2', function() {
     })
   })
 })
+
+describe('ShellyRGBW2', function() {
+  let device = null
+
+  beforeEach(function() {
+    device = Device.create('SHRGBW2', 'ABC123', '192.168.1.2')
+  })
+
+  afterEach(function() {
+    sinon.restore()
+  })
+
+  describe('#_applyUpdate()', function() {
+    it(
+      'should set mode to "white" when properties 171 and 181 are present',
+      function() {
+        device.mode.should.equal('color')
+        device._applyUpdate({}, [[0, 112, 0], [0, 171, 0], [0, 181, 1]])
+        device.mode.should.equal('white')
+      }
+    )
+
+    it(
+      'should set mode to "color" when properties 171 and 181 are absent',
+      function() {
+        device.mode = 'white'
+        device._applyUpdate({}, [[0, 112, 0], [0, 122, 1]])
+        device.mode.should.equal('color')
+
+        device.mode = 'white'
+        device._applyUpdate({}, [[0, 112, 0], [0, 171, 0], [0, 122, 1]])
+        device.mode.should.equal('color')
+
+        device.mode = 'white'
+        device._applyUpdate({}, [[0, 112, 0], [0, 181, 0], [0, 122, 1]])
+        device.mode.should.equal('color')
+      }
+    )
+  })
+})
