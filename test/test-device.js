@@ -129,6 +129,17 @@ describe('Device', function() {
     })
   })
 
+  describe('#name', function() {
+    it('should return the name from the settings', function() {
+      device.settings = { name: 'foo' }
+      device.name.should.equal('foo')
+    })
+
+    it('should return undefined when no settings have been loaded', function() {
+      should(device.name).be.undefined()
+    })
+  })
+
   describe('#_defineProperty()', function() {
     it('should define a property', function() {
       device._defineProperty('foo')
