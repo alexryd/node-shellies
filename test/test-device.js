@@ -351,28 +351,6 @@ describe('Shelly2', function() {
     })
   })
 
-  describe('#_settingsValidator()', function() {
-    it('should return the given settings', function() {
-      const settings = {}
-      device._settingsValidator(settings).should.equal(settings)
-    })
-
-    it('should update the mode', function() {
-      const changeModeHandler = sinon.fake()
-      device.on('change:mode', changeModeHandler)
-
-      device.mode.should.equal('relay')
-
-      device.settings = { mode: 'roller' }
-      changeModeHandler.calledOnce.should.be.true()
-      changeModeHandler.calledWith('roller').should.be.true()
-
-      device.settings = { mode: 'relay' }
-      changeModeHandler.calledTwice.should.be.true()
-      changeModeHandler.calledWith('relay').should.be.true()
-    })
-  })
-
   describe('#_updateRollerState()', function() {
     it('should properly update the roller state', function() {
       device.relay0.should.be.false()
@@ -419,10 +397,22 @@ describe('Shelly2', function() {
   })
 
   describe('#_applyUpdate()', function() {
+    it('should set mode to "roller" when property 113 is present', function() {
+      device.mode.should.equal('relay')
+      device._applyUpdate({}, [[0, 112, 0], [0, 113, 0], [0, 122, 1]])
+      device.mode.should.equal('roller')
+    })
+
+    it('should set mode to "relay" when property 113 is absent', function() {
+      device.mode = 'roller'
+      device._applyUpdate({}, [[0, 112, 0], [0, 122, 1]])
+      device.mode.should.equal('relay')
+    })
+
     it('should invoke _updateRollerState()', function() {
       const _updateRollerState = sinon.stub(device, '_updateRollerState')
       device._applyUpdate({}, [])
-      _updateRollerState.calledOnce.should.be.true()
+      _updateRollerState.called.should.be.true()
       _updateRollerState.calledWith(device.mode).should.be.true()
     })
   })
