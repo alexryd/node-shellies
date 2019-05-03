@@ -148,6 +148,11 @@ describe('Device', function() {
       device._props.size.should.equal(0)
     })
 
+    it('should associate the property with the given mode', function() {
+      device._defineProperty('foo', 1, null, null, 'bar')
+      device._props.get('bar').get(1).should.equal('foo')
+    })
+
     it('should properly set the default value', function() {
       device._defineProperty('foo', null, 'bar')
       device.foo.should.equal('bar')
@@ -175,6 +180,27 @@ describe('Device', function() {
     })
   })
 
+  describe('#_getPropertyName()', function() {
+    it('should return the name of the property with the given ID', function() {
+      device._defineProperty('foo', 1)
+      device._getPropertyName(1).should.equal('foo')
+    })
+
+    it('should return undefined for unknown IDs', function() {
+      should(device._getPropertyName(1)).be.undefined()
+    })
+
+    it('should respect the given mode', function() {
+      device._defineProperty('foo', 1, null, null, 'bar')
+      device._getPropertyName(1, 'bar').should.equal('foo')
+    })
+
+    it('should ignore properties associated with other modes', function() {
+      device._defineProperty('foo', 1, null, null, 'bar')
+      should(device._getPropertyName(1, 'baz')).be.undefined()
+    })
+  })
+
   describe('#[Symbol.iterator]()', function() {
     it('should return an iterator', function() {
       device.should.be.iterable()
@@ -192,8 +218,26 @@ describe('Device', function() {
         seenProps.add(key)
       }
 
-      seenProps.has('foo').should.equal(true)
-      seenProps.has('baz').should.equal(true)
+      seenProps.has('foo').should.be.true()
+      seenProps.has('bar').should.be.false()
+      seenProps.has('baz').should.be.true()
+    })
+
+    it('should only include properties for the current mode', function() {
+      device._defineProperty('foo', 1)
+      device._defineProperty('bar', 2, null, null, 'mode1')
+      device._defineProperty('baz', 3, null, null, 'mode2')
+      device.mode = 'mode2'
+
+      const seenProps = new Set()
+
+      for (let [key, value] of device) { // eslint-disable-line no-unused-vars
+        seenProps.add(key)
+      }
+
+      seenProps.has('foo').should.be.true()
+      seenProps.has('bar').should.be.false()
+      seenProps.has('baz').should.be.true()
     })
   })
 
