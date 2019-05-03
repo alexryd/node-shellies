@@ -130,6 +130,12 @@ describe('Device', function() {
   })
 
   describe('#name', function() {
+    it('should return the name when on is set', function() {
+      device.settings = { name: 'foo' }
+      device.name = 'bar'
+      device.name.should.equal('bar')
+    })
+
     it('should return the name from the settings', function() {
       device.settings = { name: 'foo' }
       device.name.should.equal('foo')
