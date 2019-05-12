@@ -43,7 +43,7 @@ const listen = () => {
         .catch(error => {
           console.error(h('[Request failed]', 'red'))
           console.log('Failed to load settings for device with ID', device.id)
-          console.log(error)
+          console.log('Error:', error.status, error.message)
         })
 
       device
