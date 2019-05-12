@@ -146,6 +146,19 @@ describe('Device', function() {
     })
   })
 
+  describe('#request', function() {
+    it('should not return null when _request is not set', function() {
+      should(device._request).be.null()
+      device.request.should.be.ok()
+    })
+
+    it('should return _request when it is set', function() {
+      const r = {}
+      device._request = r
+      device.request.should.equal(r)
+    })
+  })
+
   describe('#_defineProperty()', function() {
     it('should define a property', function() {
       device._defineProperty('foo')
@@ -308,6 +321,14 @@ describe('Device', function() {
 
       changeFooHandler.calledOnce.should.equal(true)
       changeFooHandler.calledWith(payload[0][2]).should.equal(true)
+    })
+  })
+
+  describe('#setAuthCredentials()', function() {
+    it('should create a request object if none exists', function() {
+      should(device._request).be.null()
+      device.setAuthCredentials('foo', 'bar')
+      device._request.should.be.ok()
     })
   })
 })
