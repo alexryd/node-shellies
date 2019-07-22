@@ -162,7 +162,7 @@ describe('Device', function() {
   describe('#_defineProperty()', function() {
     it('should define a property', function() {
       device._defineProperty('foo')
-      device.hasOwnProperty('foo').should.equal(true)
+      Object.prototype.hasOwnProperty.call(device, 'foo').should.equal(true)
       should(device.foo).be.null()
       device.foo = 'bar'
       device.foo.should.equal('bar')
@@ -244,7 +244,7 @@ describe('Device', function() {
 
       const seenProps = new Set()
 
-      for (let [key, value] of device) { // eslint-disable-line no-unused-vars
+      for (const [key, value] of device) { // eslint-disable-line no-unused-vars
         seenProps.add(key)
       }
 
@@ -261,7 +261,7 @@ describe('Device', function() {
 
       const seenProps = new Set()
 
-      for (let [key, value] of device) { // eslint-disable-line no-unused-vars
+      for (const [key, value] of device) { // eslint-disable-line no-unused-vars
         seenProps.add(key)
       }
 
@@ -312,7 +312,7 @@ describe('Device', function() {
     it('should update the properties from to the payload', function() {
       const changeFooHandler = sinon.fake()
       const payload = [
-        [ 0, 1, 2 ],
+        [0, 1, 2],
       ]
 
       device._defineProperty('foo', 1)
@@ -400,7 +400,7 @@ describe('Shelly2', function() {
       device._updateRollerState('roller')
       device.rollerState.should.equal('stop')
 
-      device.settings = { mode: 'roller', rollers: [ { swap: true } ] }
+      device.settings = { mode: 'roller', rollers: [{ swap: true }] }
 
       device.relay0 = true
       device._updateRollerState('roller')
