@@ -19,7 +19,7 @@ class Shellies extends EventEmitter {
       .on('stop', () => { this.emit('stop') })
       .on('statusUpdate', this._statusUpdateHandler, this)
 
-    this.staleTimeout = 8 * 60 * 60 * 1000
+    this.staleTimeout = 0
   }
 
   get size() {
