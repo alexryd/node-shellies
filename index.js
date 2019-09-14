@@ -48,6 +48,10 @@ class Shellies extends EventEmitter {
   }
 
   _deviceOfflineHandler(device) {
+    if (!Number.isInteger(this.staleTimeout) || this.staleTimeout <= 0) {
+      return
+    }
+
     const timeout = setTimeout(() => {
       this.emit('stale', device)
       device.emit('stale', device)

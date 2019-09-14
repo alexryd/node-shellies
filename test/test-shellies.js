@@ -110,6 +110,26 @@ describe('shellies', function() {
     discoverHandler.lastCall.args[1].should.be.true()
   })
 
+  it('should not emit `stale` when `staleTimeout` is disabled', function() {
+    const clock = sinon.useFakeTimers()
+    const staleHandler = sinon.fake()
+    const deviceStaleHandler = sinon.fake()
+    shellies.on('stale', staleHandler)
+    device.on('stale', deviceStaleHandler)
+
+    shellies.staleTimeout = 0
+    device.online = true
+    shellies.addDevice(device)
+    device.online = false
+
+    staleHandler.called.should.equal(false)
+    clock.tick(99999999999)
+    staleHandler.calledOnce.should.equal(false)
+    deviceStaleHandler.calledOnce.should.equal(false)
+
+    clock.restore()
+  })
+
   it('should emit `stale` when a device becomes stale', function() {
     const clock = sinon.useFakeTimers()
     const staleHandler = sinon.fake()
@@ -117,6 +137,7 @@ describe('shellies', function() {
     shellies.on('stale', staleHandler)
     device.on('stale', deviceStaleHandler)
 
+    shellies.staleTimeout = 1000
     device.online = true
     shellies.addDevice(device)
     device.online = false
@@ -136,6 +157,7 @@ describe('shellies', function() {
     const staleHandler = sinon.fake()
     shellies.on('stale', staleHandler)
 
+    shellies.staleTimeout = 1000
     shellies.addDevice(device)
 
     staleHandler.called.should.be.false()
@@ -151,6 +173,7 @@ describe('shellies', function() {
     const removeHandler = sinon.fake()
     shellies.on('remove', removeHandler)
 
+    shellies.staleTimeout = 1000
     shellies.addDevice(device)
     device.emit('offline', device)
 
@@ -168,6 +191,7 @@ describe('shellies', function() {
     const staleHandler = sinon.fake()
     shellies.on('stale', staleHandler)
 
+    shellies.staleTimeout = 1000
     device.online = true
     shellies.addDevice(device)
     device.online = false
