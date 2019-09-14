@@ -293,6 +293,12 @@ describe('Device', function() {
       device.update(msg)
       device.ttl.should.equal(msg.validFor * 1000)
     })
+
+    it('should set `lastSeen`', function() {
+      should(device.lastSeen).be.null()
+      device.update({})
+      device.lastSeen.should.not.be.null()
+    })
   })
 
   describe('#_applyUpdate()', function() {
