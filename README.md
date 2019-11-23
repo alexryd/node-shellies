@@ -20,6 +20,7 @@ Currently the following Shelly devices are supported:
 * [Shelly 2.5](https://shelly.cloud/shelly-25-wifi-smart-relay-roller-shutter-home-automation/)
 * [Shelly 4Pro](https://shelly.cloud/shelly-4-pro/)
 * [Shelly Bulb](https://shelly.cloud/shelly-bulb/)
+* [Shelly Dimmer](https://shelly.cloud/wifi-smart-home-automation-shelly-dimmer/)
 * [Shelly EM](https://shelly.cloud/shelly-energy-meter-with-contactor-control-wifi-smart-home-automation/)
 * [Shelly Flood](https://shelly.cloud/shelly-flood-and-temperature-sensor-wifi-smart-home-automation/)
 * Shelly HD
