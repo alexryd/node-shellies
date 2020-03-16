@@ -1,0 +1,44 @@
+# This file can used by Visual Studio Code extension "REST Client" from Huachao Mao
+
+@prot = http
+@ip = REPLACE_ME_WITH_IP_ADRESS_OF_YOUR_SHELLY
+@userN = REPLACE_ME_WITH_THE_USERNAME_OF_YOUR_SHELLY
+@pw = REPLACE_ME_WITH_USERPASSWORD_OF_YOUR_SHELLY
+
+
+### Get information
+
+### Get general information about your Shelly
+GET {{prot}}://{{ip}}/shelly
+
+### Get detailed information about your Shelly
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/status
+
+### Get current settings of your Shelly
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/settings
+
+### Get current Access Point configuration  of your Shelly
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/settings/ap
+
+### Get current WiFi Client mode configuration of your Shelly
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/settings/sta
+
+### Get information about current cloud configuration of your Shelly
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/settings/cloud
+
+
+
+
+### Actions
+
+@switchNr = 0
+@duration_s = 10
+
+### Turn on switch for some seconds
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/relay/{{switchNr}}?turn=on&timer={{duration_s}}
+
+### Turn off switch 
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/relay/{{switchNr}}?turn=off
+
+### Toogle switch
+GET {{prot}}://{{userN}}:{{pw}}@{{ip}}/relay/{{switchNr}}?turn=toggle
