@@ -32,6 +32,7 @@ Currently the following Shelly devices are supported:
 * [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
 * [Shelly RGBW2](https://shelly.cloud/wifi-smart-shelly-rgbw-2/)
 * [Shelly Sense](https://shelly.cloud/shelly-sense/)
+* [Shelly Vintage](https://shelly.cloud/wifi-smart-home-automation-shelly-vintage/)
 
 ## Basic usage example
 ```javascript
