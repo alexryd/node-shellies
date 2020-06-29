@@ -29,6 +29,7 @@ Currently the following Shelly devices are supported:
 * [Shelly Flood](https://shelly.cloud/shelly-flood-and-temperature-sensor-wifi-smart-home-automation/)
 * Shelly HD
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
+* [Shelly i3](https://shelly.cloud/products/shelly-i3-smart-home-automation-device/)
 * [Shelly Plug](https://shelly.cloud/shelly-plug/)
 * [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
 * [Shelly RGBW2](https://shelly.cloud/wifi-smart-shelly-rgbw-2/)
