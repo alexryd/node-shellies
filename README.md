@@ -21,6 +21,7 @@ Currently the following Shelly devices are supported:
 * [Shelly 3EM](https://shelly.cloud/shelly-3-phase-energy-meter-with-contactor-control-wifi-smart-home-automation/)
 * [Shelly 4Pro](https://shelly.cloud/shelly-4-pro/)
 * [Shelly Bulb](https://shelly.cloud/shelly-bulb/)
+* [Shelly Button 1](https://shelly.cloud/products/shelly-button-1-smart-home-automation-device/)
 * Shelly Dimmer
 * [Shelly Dimmer 2](https://shelly.cloud/products/shelly-dimmer-2-smart-home-light-contoller/)
 * [Shelly Door/Window](https://shelly.cloud/wifi-smart-home-automation-door-window-sensor/)
