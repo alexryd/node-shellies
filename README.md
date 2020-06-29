@@ -28,6 +28,7 @@ Currently the following Shelly devices are supported:
 * [Shelly Duo](https://shelly.cloud/wifi-smart-home-automation-shelly-duo/)
 * [Shelly EM](https://shelly.cloud/shelly-energy-meter-with-contactor-control-wifi-smart-home-automation/)
 * [Shelly Flood](https://shelly.cloud/shelly-flood-and-temperature-sensor-wifi-smart-home-automation/)
+* [Shelly Gas](https://shelly.cloud/products/shelly-gas-smart-home-automation-sensor/)
 * Shelly HD
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
 * [Shelly i3](https://shelly.cloud/products/shelly-i3-smart-home-automation-device/)
