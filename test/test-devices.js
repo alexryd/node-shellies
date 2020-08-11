@@ -53,7 +53,7 @@ describe('Device', function() {
   let device = null
 
   beforeEach(function() {
-    device = new Device('SHSW-1', 'ABC123', '192.168.1.2')
+    device = new Device('ABC123', '192.168.1.2')
   })
 
   describe('#settings', function() {
