@@ -2,30 +2,15 @@
 const should = require('should')
 const sinon = require('sinon')
 
-const { Device, UnknownDevice } = require('../lib/device')
+const { Device } = require('../lib/devices/base')
+const devices = require('../lib/devices')
 const request = require('../lib/http-request')
+const UnknownDevice = require('../lib/devices/unknown')
 
-describe('Device', function() {
-  let device = null
-
-  beforeEach(function() {
-    device = new Device('SHSW-1', 'ABC123', '192.168.1.2')
-  })
-
-  describe('.deviceTypeToClass()', function() {
-    it('should return classes for known device types', function() {
-      Device.deviceTypeToClass('SHSW-1').should.be.Function()
-      Device.deviceTypeToClass('SHSW-21').should.be.Function()
-    })
-
-    it('should return UnknownDevice for unknown device types', function() {
-      Device.deviceTypeToClass('UNKNOWN-1').should.equal(UnknownDevice)
-    })
-  })
-
+describe('devices', function() {
   describe('.create()', function() {
     it('should return instances of Device for known device types', function() {
-      Device.create(
+      devices.create(
         'SHSW-1',
         'ABC123',
         '192.168.1.2'
@@ -33,7 +18,7 @@ describe('Device', function() {
     })
 
     it('should return an UnknownDevice for unknown device types', function() {
-      Device.create(
+      devices.create(
         'UNKNOWN-1',
         'ABC123',
         '192.168.1.2'
@@ -43,8 +28,8 @@ describe('Device', function() {
 
   describe('.isUnknown()', function() {
     it('should return true for unknown devices', function() {
-      Device.isUnknown(
-        Device.create(
+      devices.isUnknown(
+        devices.create(
           'UNKNOWN-1',
           'ABC123',
           '192.168.1.2'
@@ -53,14 +38,22 @@ describe('Device', function() {
     })
 
     it('should return false for known devices', function() {
-      Device.isUnknown(
-        Device.create(
+      devices.isUnknown(
+        devices.create(
           'SHSW-1',
           'ABC123',
           '192.168.1.2'
         )
       ).should.be.false()
     })
+  })
+})
+
+describe('Device', function() {
+  let device = null
+
+  beforeEach(function() {
+    device = new Device('SHSW-1', 'ABC123', '192.168.1.2')
   })
 
   describe('#settings', function() {
@@ -130,7 +123,7 @@ describe('Device', function() {
   })
 
   describe('#name', function() {
-    it('should return the name when on is set', function() {
+    it('should return the name when one is set', function() {
       device.settings = { name: 'foo' }
       device.name = 'bar'
       device.name.should.equal('bar')
@@ -343,7 +336,7 @@ describe('Shelly2', function() {
   let device = null
 
   beforeEach(function() {
-    device = Device.create('SHSW-21', 'ABC123', '192.168.1.2')
+    device = devices.create('SHSW-21', 'ABC123', '192.168.1.2')
   })
 
   afterEach(function() {
@@ -517,7 +510,7 @@ describe('ShellyRGBW2', function() {
   let device = null
 
   beforeEach(function() {
-    device = Device.create('SHRGBW2', 'ABC123', '192.168.1.2')
+    device = devices.create('SHRGBW2', 'ABC123', '192.168.1.2')
   })
 
   afterEach(function() {

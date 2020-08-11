@@ -2,8 +2,9 @@
 const should = require('should')
 const sinon = require('sinon')
 
+const devices = require('../lib/devices')
 const shellies = require('../index')
-const { Device, UnknownDevice } = require('../lib/device')
+const UnknownDevice = require('../lib/devices/unknown')
 
 describe('shellies', function() {
   let device = null
@@ -359,7 +360,7 @@ describe('shellies', function() {
   describe('#isUnknownDevice()', function() {
     it('should return true for unknown devices', function() {
       shellies.isUnknownDevice(
-        Device.create(
+        devices.create(
           'UNKNOWN-1',
           'ABC123',
           '192.168.1.2'
@@ -369,7 +370,7 @@ describe('shellies', function() {
 
     it('should return false for known devices', function() {
       shellies.isUnknownDevice(
-        Device.create(
+        devices.create(
           'SHSW-1',
           'ABC123',
           '192.168.1.2'
