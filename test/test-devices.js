@@ -166,6 +166,13 @@ describe('Device', function() {
       device._props.get('*').get(1).should.equal('foo')
     })
 
+    it('should associate the property with the given IDs', function() {
+      device._defineProperty('foo', [1, 212, 33])
+      device._props.get('*').get(1).should.equal('foo')
+      device._props.get('*').get(212).should.equal('foo')
+      device._props.get('*').get(33).should.equal('foo')
+    })
+
     it('should not associate the property when no ID is given', function() {
       device._defineProperty('foo', null)
       device._props.size.should.equal(0)
