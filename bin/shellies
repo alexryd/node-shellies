@@ -24,7 +24,7 @@ const listen = () => {
         console.log(h('[Unknown device]', 'yellow'))
       }
       console.log(
-        v('Type', device.type),
+        v('Model', unknown ? device.type : device.modelName),
         v('ID', device.id),
         v('Host', device.host)
       )
@@ -62,7 +62,7 @@ const listen = () => {
         .on('offline', () => {
           console.log(h('[Device offline]', 'red'))
           console.log(
-            v('Type', device.type),
+            v('Model', unknown ? device.type : device.modelName),
             v('ID', device.id),
             v('Host', device.host)
           )
@@ -70,7 +70,7 @@ const listen = () => {
         .on('online', () => {
           console.log(h('[Device online]'))
           console.log(
-            v('Type', device.type),
+            v('Model', unknown ? device.type : device.modelName),
             v('ID', device.id),
             v('Host', device.host)
           )
@@ -79,7 +79,7 @@ const listen = () => {
     .on('stale', device => {
       console.log(h('[Device stale]', 'red'))
       console.log(
-        v('Type', device.type),
+        v('Model', unknown ? device.type : device.modelName),
         v('ID', device.id),
         v('Host', device.host)
       )
@@ -96,12 +96,13 @@ const description = host => {
         msg.host
       )
 
-      if (shellies.isUnknownDevice(device)) {
+      const unknown = shellies.isUnknownDevice(device)
+      if (unknown) {
         console.log(colors.yellow('[Unknown device]'))
       }
 
       console.log(
-        v('Type', device.type),
+        v('Model', unknown ? device.type : device.modelName),
         v('ID', device.id),
         v('Host', device.host)
       )
@@ -121,12 +122,13 @@ const status = host => {
       device.update(msg)
       device.ttl = 0
 
-      if (shellies.isUnknownDevice(device)) {
+      const unknown = shellies.isUnknownDevice(device)
+      if (unknown) {
         console.log(colors.yellow('[Unknown device]'))
       }
 
       console.log(
-        v('Type', device.type),
+        v('Model', unknown ? device.type : device.modelName),
         v('ID', device.id),
         v('Host', device.host)
       )
