@@ -106,6 +106,7 @@ const description = host => {
         v('ID', device.id),
         v('Host', device.host)
       )
+      console.log(v('Protocol revision', msg.protocolRevision))
 
       console.log(v('Description', JSON.stringify(msg.payload)))
     })
