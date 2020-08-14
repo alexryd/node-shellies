@@ -44,6 +44,7 @@ The following Shelly devices are supported:
 * [Shelly RGBW2](https://shelly.cloud/wifi-smart-shelly-rgbw-2/)
 * [Shelly Sense](https://shelly.cloud/shelly-sense/)
 * Shelly Smoke
+* [Shelly Smoke 2](https://shelly.cloud/products/shelly-smoke-smart-home-automation-sensor/)
 * [Shelly Vintage](https://shelly.cloud/wifi-smart-home-automation-shelly-vintage/)
 
 ## Basic usage example
