@@ -24,6 +24,7 @@ The following Shelly devices are supported:
 * [Shelly Air](https://shelly.cloud/products/shelly-air-smart-home-air-purifier/)
 * [Shelly Bulb](https://shelly.cloud/shelly-bulb/)
 * [Shelly Button 1](https://shelly.cloud/products/shelly-button-1-smart-home-automation-device/)
+* Shelly Color
 * Shelly Dimmer
 * [Shelly Dimmer 2](https://shelly.cloud/products/shelly-dimmer-2-smart-home-light-contoller/)
 * Shelly Door/Window
