@@ -27,6 +27,7 @@ The following Shelly devices are supported:
 * Shelly Color
 * Shelly Dimmer
 * [Shelly Dimmer 2](https://shelly.cloud/products/shelly-dimmer-2-smart-home-light-contoller/)
+* Shelly Dimmer W1
 * Shelly Door/Window
 * [Shelly Door/Window 2](https://shelly.cloud/products/shelly-door-window-2-smart-home-automation-sensor/)
 * [Shelly Duo](https://shelly.cloud/wifi-smart-home-automation-shelly-duo/)
