@@ -65,6 +65,21 @@ describe('StatusUpdatesListener', function() {
       statusUpdateHandler.calledWith(msg).should.equal(true)
     })
 
+    it(
+      'should ignore invalid updates from requestStatusUpdates()',
+      async function() {
+        const statusUpdateHandler = sinon.fake()
+        listener.on('statusUpdate', statusUpdateHandler)
+
+        const msg = {}
+        coap.requestStatusUpdates.callsArgWith(0, msg)
+
+        await listener.start()
+
+        statusUpdateHandler.calledOnce.should.equal(false)
+      }
+    )
+
     it('should handle errors from requestStatusUpdates()', function() {
       const err = new Error('Fake error')
       coap.requestStatusUpdates.rejects(err)
@@ -93,6 +108,21 @@ describe('StatusUpdatesListener', function() {
       statusUpdateHandler.calledTwice.should.equal(true)
       statusUpdateHandler.calledWith(msg).should.equal(true)
     })
+
+    it(
+      'should ignore invalid updates from listenForStatusUpdates()',
+      async function() {
+        const statusUpdateHandler = sinon.fake()
+        listener.on('statusUpdate', statusUpdateHandler)
+
+        const msg = {}
+        coap.listenForStatusUpdates.callsArgWith(0, msg)
+
+        await listener.start()
+
+        statusUpdateHandler.calledOnce.should.equal(false)
+      }
+    )
 
     it('should handle errors from listenForStatusUpdates()', function() {
       const err = new Error('Fake error')
