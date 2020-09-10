@@ -301,7 +301,7 @@ describe('Device', function() {
     })
   })
 
-  describe('#_applyUpdate()', function() {
+  describe('#_applyCoapUpdate()', function() {
     it('should update the host', function() {
       const changeHostHandler = sinon.fake()
       const msg = {
@@ -309,7 +309,7 @@ describe('Device', function() {
       }
 
       device.on('change:host', changeHostHandler)
-      device._applyUpdate(msg, [])
+      device._applyCoapUpdate(msg, [])
 
       changeHostHandler.calledOnce.should.equal(true)
       changeHostHandler.calledWith(msg.host).should.equal(true)
@@ -323,7 +323,7 @@ describe('Device', function() {
 
       device._defineProperty('foo', 1)
       device.on('change:foo', changeFooHandler)
-      device._applyUpdate({}, payload)
+      device._applyCoapUpdate({}, payload)
 
       changeFooHandler.calledOnce.should.equal(true)
       changeFooHandler.calledWith(payload[0][2]).should.equal(true)
@@ -395,10 +395,10 @@ describe('Shelly2', function() {
     })
   })
 
-  describe('#_applyUpdate()', function() {
+  describe('#_applyCoapUpdate()', function() {
     it('should set mode to "roller" when property 113 is present', function() {
       device.mode.should.equal('relay')
-      device._applyUpdate(
+      device._applyCoapUpdate(
         { protocolRevision: '1' },
         [[0, 112, 0], [0, 113, 0], [0, 122, 1]]
       )
@@ -407,7 +407,7 @@ describe('Shelly2', function() {
 
     it('should set mode to "relay" when property 113 is absent', function() {
       device.mode = 'roller'
-      device._applyUpdate(
+      device._applyCoapUpdate(
         { protocolRevision: '1' },
         [[0, 112, 0], [0, 122, 1]]
       )
@@ -416,7 +416,7 @@ describe('Shelly2', function() {
 
     it('should invoke _updateRollerState()', function() {
       const _updateRollerState = sinon.stub(device, '_updateRollerState')
-      device._applyUpdate({ protocolRevision: '1' }, [])
+      device._applyCoapUpdate({ protocolRevision: '1' }, [])
       _updateRollerState.called.should.be.true()
       _updateRollerState.calledWith(device.mode).should.be.true()
     })
@@ -496,12 +496,12 @@ describe('ShellyRGBW2', function() {
     sinon.restore()
   })
 
-  describe('#_applyUpdate()', function() {
+  describe('#_applyCoapUpdate()', function() {
     it(
       'should set mode to "white" when properties 171 and 181 are present',
       function() {
         device.mode.should.equal('color')
-        device._applyUpdate(
+        device._applyCoapUpdate(
           { protocolRevision: '1' },
           [[0, 112, 0], [0, 171, 0], [0, 181, 1]]
         )
@@ -513,21 +513,21 @@ describe('ShellyRGBW2', function() {
       'should set mode to "color" when properties 171 and 181 are absent',
       function() {
         device.mode = 'white'
-        device._applyUpdate(
+        device._applyCoapUpdate(
           { protocolRevision: '1' },
           [[0, 112, 0], [0, 122, 1]]
         )
         device.mode.should.equal('color')
 
         device.mode = 'white'
-        device._applyUpdate(
+        device._applyCoapUpdate(
           { protocolRevision: '1' },
           [[0, 112, 0], [0, 171, 0], [0, 122, 1]]
         )
         device.mode.should.equal('color')
 
         device.mode = 'white'
-        device._applyUpdate(
+        device._applyCoapUpdate(
           { protocolRevision: '1' },
           [[0, 112, 0], [0, 181, 0], [0, 122, 1]]
         )
