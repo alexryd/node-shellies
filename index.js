@@ -3,7 +3,6 @@ const EventEmitter = require('eventemitter3')
 const Coap = require('./lib/coap')
 const devices = require('./lib/devices')
 const request = require('./lib/http-request')
-const StatusUpdatesListener = require('./lib/status-updates-listener')
 
 const deviceKey = (type, id) => `${type}#${id}`
 
@@ -12,12 +11,12 @@ class Shellies extends EventEmitter {
     super()
 
     this._devices = new Map()
-    this._listener = new StatusUpdatesListener()
+    this._coapListener = new Coap.Listener()
 
-    this._listener
+    this._coapListener
       .on('start', () => { this.emit('start') })
       .on('stop', () => { this.emit('stop') })
-      .on('statusUpdate', this._statusUpdateHandler, this)
+      .on('update', this._coapUpdateHandler, this)
 
     this.staleTimeout = 0
   }
@@ -27,14 +26,14 @@ class Shellies extends EventEmitter {
   }
 
   get running() {
-    return this._listener.listening
+    return this._coapListener.running
   }
 
   [Symbol.iterator]() {
     return this._devices.values()
   }
 
-  _statusUpdateHandler(msg) {
+  _coapUpdateHandler(msg) {
     let device = this._devices.get(deviceKey(msg.deviceType, msg.deviceId))
 
     if (device) {
@@ -79,11 +78,11 @@ class Shellies extends EventEmitter {
   }
 
   async start(networkInterface = null) {
-    await this._listener.start(networkInterface)
+    await this._coapListener.start(networkInterface)
   }
 
   stop() {
-    this._listener.stop()
+    this._coapListener.stop()
   }
 
   getDevice(type, id) {
@@ -134,6 +133,5 @@ const shellies = new Shellies()
 shellies.Coap = Coap
 shellies.createDevice = devices.create.bind(devices)
 shellies.request = request
-shellies.StatusUpdatesListener = StatusUpdatesListener
 
 module.exports = shellies
