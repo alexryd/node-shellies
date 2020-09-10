@@ -77,6 +77,8 @@ const listen = () => {
         })
     })
     .on('stale', device => {
+      const unknown = shellies.isUnknownDevice(device)
+
       console.log(h('[Device stale]', 'red'))
       console.log(
         v('Model', unknown ? device.type : device.modelName),
