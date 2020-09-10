@@ -122,7 +122,7 @@ const status = host => {
         msg.deviceId,
         msg.host
       )
-      device.update(msg)
+      device.applyCoapUpdate(msg)
       device.ttl = 0
 
       const unknown = shellies.isUnknownDevice(device)

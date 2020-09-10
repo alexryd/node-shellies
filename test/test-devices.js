@@ -271,16 +271,16 @@ describe('Device', function() {
     })
   })
 
-  describe('#update()', function() {
+  describe('#applyCoapUpdate()', function() {
     it('should set `online` to true', function() {
       device.online = false
-      device.update({})
+      device.applyCoapUpdate({})
       device.online.should.equal(true)
     })
 
     it('should not set `ttl` when `validFor` is not specified', function() {
       device.ttl = 0
-      device.update({})
+      device.applyCoapUpdate({})
       device.ttl.should.equal(0)
     })
 
@@ -290,13 +290,13 @@ describe('Device', function() {
       }
 
       device.ttl = 0
-      device.update(msg)
+      device.applyCoapUpdate(msg)
       device.ttl.should.equal(msg.validFor * 1000)
     })
 
     it('should set `lastSeen`', function() {
       should(device.lastSeen).be.null()
-      device.update({})
+      device.applyCoapUpdate({})
       device.lastSeen.should.not.be.null()
     })
   })

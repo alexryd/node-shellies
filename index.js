@@ -37,10 +37,10 @@ class Shellies extends EventEmitter {
     let device = this._devices.get(deviceKey(msg.deviceType, msg.deviceId))
 
     if (device) {
-      device.update(msg)
+      device.applyCoapUpdate(msg)
     } else {
       device = devices.create(msg.deviceType, msg.deviceId, msg.host)
-      device.update(msg)
+      device.applyCoapUpdate(msg)
       this.emit('discover', device, this.isUnknownDevice(device))
       this.addDevice(device)
     }
