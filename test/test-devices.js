@@ -139,16 +139,16 @@ describe('Device', function() {
     })
   })
 
-  describe('#request', function() {
-    it('should not return null when _request is not set', function() {
-      should(device._request).be.null()
-      device.request.should.be.ok()
+  describe('#httpRequest', function() {
+    it('should not return null when _httpRequest is not set', function() {
+      should(device._httpRequest).be.null()
+      device.httpRequest.should.be.ok()
     })
 
-    it('should return _request when it is set', function() {
+    it('should return _httpRequest when it is set', function() {
       const r = {}
-      device._request = r
-      device.request.should.equal(r)
+      device._httpRequest = r
+      device.httpRequest.should.equal(r)
     })
   })
 
@@ -332,9 +332,9 @@ describe('Device', function() {
 
   describe('#setAuthCredentials()', function() {
     it('should create a request object if none exists', function() {
-      should(device._request).be.null()
+      should(device._httpRequest).be.null()
       device.setAuthCredentials('foo', 'bar')
-      device._request.should.be.ok()
+      device._httpRequest.should.be.ok()
     })
   })
 })
