@@ -4,7 +4,7 @@ const sinon = require('sinon')
 
 const { Device } = require('../lib/devices/base')
 const devices = require('../lib/devices')
-const request = require('../lib/http-request')
+const Http = require('../lib/http')
 const UnknownDevice = require('../lib/devices/unknown')
 
 describe('devices', function() {
@@ -426,7 +426,7 @@ describe('Shelly2', function() {
     let get = null
 
     beforeEach(function() {
-      get = sinon.stub(request, 'get')
+      get = sinon.stub(Http.request, 'get')
     })
 
     it('should request a URL with a proper query string', function() {
@@ -459,7 +459,7 @@ describe('Shelly2', function() {
     let get = null
 
     beforeEach(function() {
-      get = sinon.stub(request, 'get')
+      get = sinon.stub(Http.request, 'get')
     })
 
     it('should request a URL with a proper query string', function() {

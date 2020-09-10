@@ -348,7 +348,7 @@ describe('shellies', function() {
   describe('#setAuthCredentials()', function() {
     it('should set the authentication credentials', function() {
       const auth = sinon.fake()
-      sinon.replace(shellies.request, 'auth', auth)
+      sinon.replace(shellies.Http.request, 'auth', auth)
 
       shellies.setAuthCredentials('foo', 'bar')
 

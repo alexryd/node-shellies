@@ -2,7 +2,7 @@ const EventEmitter = require('eventemitter3')
 
 const Coap = require('./lib/coap')
 const devices = require('./lib/devices')
-const request = require('./lib/http-request')
+const Http = require('./lib/http')
 
 const deviceKey = (type, id) => `${type}#${id}`
 
@@ -74,7 +74,7 @@ class Shellies extends EventEmitter {
   }
 
   setAuthCredentials(username, password) {
-    request.auth(username, password)
+    Http.request.auth(username, password)
   }
 
   async start(networkInterface = null) {
@@ -132,6 +132,6 @@ const shellies = new Shellies()
 
 shellies.Coap = Coap
 shellies.createDevice = devices.create.bind(devices)
-shellies.request = request
+shellies.Http = Http
 
 module.exports = shellies
