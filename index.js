@@ -118,7 +118,7 @@ class Shellies extends EventEmitter {
    * updates on. If not specified, all available network interfaces will be
    * used.
    */
-  async start(networkInterface = null) {
+  async startCoap(networkInterface = null) {
     await this._coapListener.start(networkInterface)
   }
 

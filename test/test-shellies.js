@@ -205,14 +205,14 @@ describe('shellies', function() {
     clock.restore()
   })
 
-  describe('#start()', function() {
+  describe('#startCoap()', function() {
     it(
       'should pass the network interface to the CoAP listener',
       function() {
         const start = sinon.stub(shellies._coapListener, 'start')
         const networkInterface = '127.0.0.1'
 
-        shellies.start(networkInterface)
+        shellies.startCoap(networkInterface)
 
         start.calledOnce.should.be.true()
         start.calledWith(networkInterface).should.be.true()
