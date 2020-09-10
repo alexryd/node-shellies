@@ -73,7 +73,7 @@ class Shellies extends EventEmitter {
     this.on('remove', removeHandler)
   }
 
-  setAuthCredentials(username, password) {
+  setHttpAuthCredentials(username, password) {
     Http.request.auth(username, password)
   }
 

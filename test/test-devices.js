@@ -330,10 +330,10 @@ describe('Device', function() {
     })
   })
 
-  describe('#setAuthCredentials()', function() {
+  describe('#setHttpAuthCredentials()', function() {
     it('should create a request object if none exists', function() {
       should(device._httpRequest).be.null()
-      device.setAuthCredentials('foo', 'bar')
+      device.setHttpAuthCredentials('foo', 'bar')
       device._httpRequest.should.be.ok()
     })
   })

@@ -345,12 +345,12 @@ describe('shellies', function() {
     })
   })
 
-  describe('#setAuthCredentials()', function() {
+  describe('#setHttpAuthCredentials()', function() {
     it('should set the authentication credentials', function() {
       const auth = sinon.fake()
       sinon.replace(shellies.Http.request, 'auth', auth)
 
-      shellies.setAuthCredentials('foo', 'bar')
+      shellies.setHttpAuthCredentials('foo', 'bar')
 
       auth.calledOnce.should.equal(true)
       auth.calledWith('foo', 'bar').should.equal(true)
