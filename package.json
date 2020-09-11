@@ -28,6 +28,7 @@
     "colors": "^1.3.3",
     "command-line-commands": "^2.0.1",
     "eventemitter3": "^3.1.0",
+    "mqtt": "^4.2.1",
     "require-all": "^3.0.0",
     "superagent": "^4.0.0",
     "superagent-defaults": "^0.1.14"

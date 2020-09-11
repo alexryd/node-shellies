@@ -2,6 +2,7 @@
 const should = require('should')
 const sinon = require('sinon')
 
+const Coap = require('../lib/coap')
 const devices = require('../lib/devices')
 const shellies = require('../index')
 const UnknownDevice = require('../lib/devices/unknown')
@@ -22,7 +23,7 @@ describe('shellies', function() {
     const startHandler = sinon.fake()
     shellies.on('start', startHandler)
 
-    shellies._coapListener.emit('start')
+    Coap.listener.emit('start')
     startHandler.calledOnce.should.equal(true)
   })
 
@@ -30,7 +31,7 @@ describe('shellies', function() {
     const stopHandler = sinon.fake()
     shellies.on('stop', stopHandler)
 
-    shellies._coapListener.emit('stop')
+    Coap.listener.emit('stop')
     stopHandler.calledOnce.should.equal(true)
   })
 
@@ -43,7 +44,7 @@ describe('shellies', function() {
       deviceId: 'ABC123',
       host: '192.168.1.2',
     }
-    shellies._coapListener.emit('update', msg)
+    Coap.listener.emit('update', msg)
 
     discoverHandler.calledOnce.should.equal(true)
     discoverHandler.lastCall.args[0].type.should.equal(msg.deviceType)
@@ -56,7 +57,7 @@ describe('shellies', function() {
       deviceId: 'ABC124',
       host: '192.168.1.3',
     }
-    shellies._coapListener.emit('update', msg2)
+    Coap.listener.emit('update', msg2)
 
     discoverHandler.calledTwice.should.equal(true)
     discoverHandler.lastCall.args[0].type.should.equal(msg2.deviceType)
@@ -76,7 +77,7 @@ describe('shellies', function() {
       deviceId: device.id,
       host: device.host,
     }
-    shellies._coapListener.emit('update', msg)
+    Coap.listener.emit('update', msg)
 
     discoverHandler.calledOnce.should.equal(false)
   })
@@ -90,7 +91,7 @@ describe('shellies', function() {
       deviceId: 'ABC123',
       host: '192.168.1.2',
     }
-    shellies._coapListener.emit('update', msg)
+    Coap.listener.emit('update', msg)
 
     addHandler.calledOnce.should.equal(true)
   })
@@ -104,7 +105,7 @@ describe('shellies', function() {
       deviceId: 'ABC123',
       host: '192.168.1.2',
     }
-    shellies._coapListener.emit('update', msg)
+    Coap.listener.emit('update', msg)
 
     discoverHandler.calledOnce.should.equal(true)
     discoverHandler.lastCall.args[0].should.be.instanceof(UnknownDevice)
@@ -209,7 +210,7 @@ describe('shellies', function() {
     it(
       'should pass the network interface to the CoAP listener',
       function() {
-        const start = sinon.stub(shellies._coapListener, 'start')
+        const start = sinon.stub(Coap.listener, 'start')
         const networkInterface = '127.0.0.1'
 
         shellies.startCoap(networkInterface)
