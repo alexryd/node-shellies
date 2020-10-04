@@ -161,26 +161,9 @@ describe('Device', function() {
       device.foo.should.equal('bar')
     })
 
-    it('should associate the property with the given ID', function() {
-      device._defineProperty('foo', 1)
-      device._props.get('*').get(1).should.equal('foo')
-    })
-
-    it('should associate the property with the given IDs', function() {
-      device._defineProperty('foo', [1, 212, 33])
-      device._props.get('*').get(1).should.equal('foo')
-      device._props.get('*').get(212).should.equal('foo')
-      device._props.get('*').get(33).should.equal('foo')
-    })
-
-    it('should not associate the property when no ID is given', function() {
-      device._defineProperty('foo', null)
-      device._props.size.should.equal(0)
-    })
-
     it('should associate the property with the given mode', function() {
-      device._defineProperty('foo', 1, null, null, 'bar')
-      device._props.get('bar').get(1).should.equal('foo')
+      device._defineProperty('foo', 'bar')
+      device._props.get('foo').should.equal('bar')
     })
 
     it('should properly set the default value', function() {
@@ -210,24 +193,19 @@ describe('Device', function() {
     })
   })
 
-  describe('#_getPropertyName()', function() {
-    it('should return the name of the property with the given ID', function() {
-      device._defineProperty('foo', 1)
-      device._getPropertyName(1).should.equal('foo')
+  describe('#_mapCoapProperties()', function() {
+    it('should associate a property with a given ID', function() {
+      device._defineProperty('foo')
+      device._mapCoapProperties({ foo: 1 })
+      device._coapProps.get('').get(1).should.equal('foo')
     })
 
-    it('should return undefined for unknown IDs', function() {
-      should(device._getPropertyName(1)).be.undefined()
-    })
-
-    it('should respect the given mode', function() {
-      device._defineProperty('foo', 1, null, null, 'bar')
-      device._getPropertyName(1, 'bar').should.equal('foo')
-    })
-
-    it('should ignore properties associated with other modes', function() {
-      device._defineProperty('foo', 1, null, null, 'bar')
-      should(device._getPropertyName(1, 'baz')).be.undefined()
+    it('should associate properties with the given IDs', function() {
+      device._defineProperty('foo')
+      device._mapCoapProperties({ foo: [1, 212, 33] })
+      device._coapProps.get('').get(1).should.equal('foo')
+      device._coapProps.get('').get(212).should.equal('foo')
+      device._coapProps.get('').get(33).should.equal('foo')
     })
   })
 
@@ -237,10 +215,10 @@ describe('Device', function() {
       device[Symbol.iterator]().should.be.iterator()
     })
 
-    it('should iterate through properties with IDs', function() {
-      device._defineProperty('foo', 1)
+    it('should iterate through defined properties', function() {
+      device._defineProperty('foo')
       device._defineProperty('bar')
-      device._defineProperty('baz', 2)
+      device._defineProperty('baz')
 
       const seenProps = new Set()
 
@@ -249,14 +227,14 @@ describe('Device', function() {
       }
 
       seenProps.has('foo').should.be.true()
-      seenProps.has('bar').should.be.false()
+      seenProps.has('bar').should.be.true()
       seenProps.has('baz').should.be.true()
     })
 
     it('should only include properties for the current mode', function() {
-      device._defineProperty('foo', 1)
-      device._defineProperty('bar', 2, null, null, 'mode1')
-      device._defineProperty('baz', 3, null, null, 'mode2')
+      device._defineProperty('foo')
+      device._defineProperty('bar', 'mode1')
+      device._defineProperty('baz', 'mode2')
       device.mode = 'mode2'
 
       const seenProps = new Set()
@@ -272,6 +250,19 @@ describe('Device', function() {
   })
 
   describe('#applyCoapUpdate()', function() {
+    it('should update the host', function() {
+      const changeHostHandler = sinon.fake()
+      const msg = {
+        host: '192.168.1.3',
+      }
+
+      device.on('change:host', changeHostHandler)
+      device.applyCoapUpdate(msg, [])
+
+      changeHostHandler.calledOnce.should.equal(true)
+      changeHostHandler.calledWith(msg.host).should.equal(true)
+    })
+
     it('should set `online` to true', function() {
       device.online = false
       device.applyCoapUpdate({})
@@ -302,26 +293,14 @@ describe('Device', function() {
   })
 
   describe('#_applyCoapUpdate()', function() {
-    it('should update the host', function() {
-      const changeHostHandler = sinon.fake()
-      const msg = {
-        host: '192.168.1.3',
-      }
-
-      device.on('change:host', changeHostHandler)
-      device._applyCoapUpdate(msg, [])
-
-      changeHostHandler.calledOnce.should.equal(true)
-      changeHostHandler.calledWith(msg.host).should.equal(true)
-    })
-
     it('should update the properties from to the payload', function() {
       const changeFooHandler = sinon.fake()
       const payload = [
         [0, 1, 2],
       ]
 
-      device._defineProperty('foo', 1)
+      device._defineProperty('foo')
+      device._mapCoapProperties({ foo: 1 })
       device.on('change:foo', changeFooHandler)
       device._applyCoapUpdate({}, payload)
 
