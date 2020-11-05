@@ -15,6 +15,7 @@ Handles communication with [Shelly](https://shelly.cloud) devices, using both
 ## Supported devices
 The following Shelly devices are supported:
 * [Shelly 1](https://shelly.cloud/shelly1-open-source/)
+* [Shelly 1L](https://shelly.cloud/products/shelly-1l-single-wire-smart-home-automation-relay/)
 * [Shelly 1PM](https://shelly.cloud/shelly-1pm-wifi-smart-relay-home-automation/)
 * Shelly 2
 * [Shelly 2.5](https://shelly.cloud/shelly-25-wifi-smart-relay-roller-shutter-home-automation/)
