@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2020-11-26
+### Fixed
+- Fixed a bug with duplicate properties on the Shelly 1L.
+
 ## [1.1.0] - 2020-11-26
 ### Added
 - Add support for the Shelly 1L and the Shelly Uni (thanks to @jghaanstra).
@@ -25,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Add a missing `mode` argument to the `Shelly25` constructor.
 
-[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/alexryd/node-shellies/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/alexryd/node-shellies/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/alexryd/node-shellies/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/alexryd/node-shellies/compare/v1.0.0...v1.0.1
