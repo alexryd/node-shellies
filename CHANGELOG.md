@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2021-01-12
+### Added
+- Add support for the Shelly Button1 version 2.
+
+## [1.2.0] - 2021-01-11
+### Added
+- Add support for the Shelly Bulb RGBW (thanks to @jghaanstra).
+
 ## [1.1.1] - 2020-11-26
 ### Fixed
 - Fixed a bug with duplicate properties on the Shelly 1L.
@@ -29,7 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Add a missing `mode` argument to the `Shelly25` constructor.
 
-[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/alexryd/node-shellies/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/alexryd/node-shellies/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/alexryd/node-shellies/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/alexryd/node-shellies/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/alexryd/node-shellies/compare/v1.0.1...v1.0.2
