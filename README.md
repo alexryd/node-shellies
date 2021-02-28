@@ -38,7 +38,7 @@ The following Shelly devices are supported:
 * Shelly HD
 * [Shelly H&T](https://shelly.cloud/shelly-humidity-and-temperature/)
 * [Shelly i3](https://shelly.cloud/products/shelly-i3-smart-home-automation-device/)
-* [Shelly Motion](https://shelly.cloud/shelly-motion-smart-home-automation-sensor/)
+* [Shelly Motion](https://shelly.cloud/shelly-motion-smart-home-automation-sensor/) <sup>1</sup>
 * [Shelly Plug](https://shelly.cloud/shelly-plug/)
 * [Shelly Plug S](https://shelly.cloud/shelly-plug-s/)
 * [Shelly Plug US](https://shelly.cloud/products/shelly-plug-us-smart-home-automation-device/)
@@ -49,6 +49,11 @@ The following Shelly devices are supported:
 * [Shelly Smoke 2](https://shelly.cloud/products/shelly-smoke-smart-home-automation-sensor/)
 * [Shelly Uni](https://shelly.cloud/products/shelly-uni-smart-home-automation-device/)
 * [Shelly Vintage](https://shelly.cloud/wifi-smart-home-automation-shelly-vintage/)
+
+### Notes
+<sup>1</sup> Requires setting the `Internet & Security -> CoIoT -> Remote
+address` option on the Shelly device to the IP address of your device running
+node-shellies.
 
 ## Basic usage example
 ```javascript
