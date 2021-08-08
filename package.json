@@ -27,7 +27,7 @@
     "coap": "^0.24.0",
     "colors": "^1.4.0",
     "command-line-commands": "^3.0.2",
-    "eventemitter3": "^3.1.0",
+    "eventemitter3": "^4.0.7",
     "require-all": "^3.0.0",
     "superagent": "^4.0.0",
     "superagent-defaults": "^0.1.14"
