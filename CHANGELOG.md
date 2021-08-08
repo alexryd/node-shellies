@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2021-08-08
+### Fixed
+- **[Potentially breaking]** Change the data type of several device properties
+  from `Boolean` to `Number` since their possible values have changed from 0/1
+  to 0/1/-1, where -1 usually indicates that there is no valid reading.
+- Update dependencies to fix security vulnerabilities.
+
+## [1.5.0] - 2021-02-28
+### Added
+- Add support for unicast UDP messages.
+
 ## [1.4.0] - 2021-02-23
 ### Added
 - Add support for the Shelly Motion (thanks to @jghaanstra).
@@ -41,7 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Add a missing `mode` argument to the `Shelly25` constructor.
 
-[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/alexryd/node-shellies/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/alexryd/node-shellies/compare/v1.5.0...v1.6.0
+[1.5.0]: https://github.com/alexryd/node-shellies/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/alexryd/node-shellies/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/alexryd/node-shellies/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/alexryd/node-shellies/compare/v1.1.1...v1.2.0
