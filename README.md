@@ -47,6 +47,7 @@ The following Shelly devices are supported:
 * [Shelly Sense](https://shelly.cloud/shelly-sense/)
 * Shelly Smoke
 * [Shelly Smoke 2](https://shelly.cloud/products/shelly-smoke-smart-home-automation-sensor/)
+* [Shelly TRV](https://shelly.cloud/shelly-thermostatic-radiator-valve/)
 * [Shelly Uni](https://shelly.cloud/products/shelly-uni-smart-home-automation-device/)
 * [Shelly Vintage](https://shelly.cloud/wifi-smart-home-automation-shelly-vintage/)
 
