@@ -2,8 +2,10 @@
 [![NPM Version](https://img.shields.io/npm/v/shellies.svg)](https://www.npmjs.com/package/shellies)
 [![Build Status](https://travis-ci.org/alexryd/node-shellies.svg?branch=master)](https://travis-ci.org/alexryd/node-shellies)
 
-Handles communication with [Shelly](https://shelly.cloud) devices, using both
+Handles communication with the first generation [Shelly](https://shelly.cloud) devices, using both
 [CoAP](http://coap.technology) and HTTP.
+
+For the next generation devices, see [node-shellies-ng](https://github.com/alexryd/node-shellies-ng).
 
 ## Features
 * Automatically detects Shelly devices (on the same network and subnet).
