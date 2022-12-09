@@ -29,7 +29,7 @@
     "command-line-commands": "^3.0.2",
     "eventemitter3": "^5.0.0",
     "require-all": "^3.0.0",
-    "superagent": "^7.1.1",
+    "superagent": "^8.0.6",
     "superagent-defaults": "^0.1.14"
   },
   "devDependencies": {
