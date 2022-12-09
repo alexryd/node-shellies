@@ -24,7 +24,7 @@
     "url": "https://github.com/alexryd/node-shellies.git"
   },
   "dependencies": {
-    "coap": "^1.0.3",
+    "coap": "^1.2.2",
     "colors": "^1.4.0",
     "command-line-commands": "^3.0.2",
     "eventemitter3": "^4.0.7",
